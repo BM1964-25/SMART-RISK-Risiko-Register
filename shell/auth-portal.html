@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Risiko Register | Auth Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./site-shell.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="header-left">
+        <div class="brand-line">BuiltSmart Hub</div>
+        <div class="suite-line">Risiko Register Auth</div>
+        <h1>Login und Freischaltung im selben Design wie PERT.</h1>
+        <p class="subtitle">
+          <span>Supabase Login</span>
+          <span>Registrierung</span>
+          <span>Freischaltung</span>
+          <span>im gleichen Stil</span>
+        </p>
+      </div>
+      <div class="header-right">
+        <div class="summary-stat">
+          <span>Zugang</span>
+          <strong>Bereit fuer Supabase</strong>
+        </div>
+        <div class="toolbar">
+          <a class="btn btn-secondary" href="./landing.html">Zur Landingpage</a>
+          <a class="btn btn-primary" href="./dashboard.html">Zum Dashboard</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <aside>
+        <section class="panel">
+          <div class="panel-head">Schritte</div>
+          <div class="panel-body">
+            <div class="link-list">
+              <a href="./landing.html">1. Landingpage <span>Vorschau</span></a>
+              <a href="./auth-portal.html">2. Auth Portal <span>Login / Signup</span></a>
+              <a href="./dashboard.html">3. Dashboard <span>Start nach Login</span></a>
+              <a href="./app-page.html">4. App Start <span>Modul oeffnen</span></a>
+            </div>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">Konfiguration</div>
+          <div class="panel-body">
+            <p>Hier kommen spaeter die Supabase-Daten, Redirects und das Session-Verhalten hinein.</p>
+          </div>
+        </section>
+      </aside>
+
+      <section class="content">
+        <section class="auth-grid">
+          <div class="grid-2">
+            <article class="login-card">
+              <h3>Login</h3>
+              <div class="field">
+                <label for="login-email">E-Mail</label>
+                <input id="login-email" type="email" placeholder="info@built-smart-hub.com">
+              </div>
+              <div class="field">
+                <label for="login-password">Passwort</label>
+                <input id="login-password" type="password" placeholder="Passwort">
+              </div>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="./dashboard.html">Anmelden</a>
+                <a class="btn btn-ghost" href="./landing.html">Zurueck</a>
+              </div>
+            </article>
+            <article class="login-card">
+              <h3>Registrierung</h3>
+              <div class="field">
+                <label for="register-email">E-Mail</label>
+                <input id="register-email" type="email" placeholder="neue@adresse.de">
+              </div>
+              <div class="field">
+                <label for="register-company">Firma</label>
+                <input id="register-company" type="text" placeholder="Unternehmen">
+              </div>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="./dashboard.html">Konto anlegen</a>
+                <a class="btn btn-ghost" href="./app-page.html">Zur App pruefen</a>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer" aria-label="Rechtliches">
+      <div class="footer-meta">© 2026 BuiltSmart Hub | Bernhard Metzger</div>
+      <nav class="footer-links" aria-label="Footer Navigation">
+        <a href="https://www.built-smart-hub.com" target="_blank" rel="noopener noreferrer">BuiltSmart Hub</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="https://www.built-smart-hub.com/kontakt" target="_blank" rel="noopener noreferrer">Kontakt</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="https://www.built-smart-hub.com/impressum" target="_blank" rel="noopener noreferrer">Impressum</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="https://www.built-smart-hub.com/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="https://www.built-smart-hub.com/agb" target="_blank" rel="noopener noreferrer">AGB</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="https://www.built-smart-hub.com/widerrufbelehrung" target="_blank" rel="noopener noreferrer">Widerruf</a>
+      </nav>
+    </footer>
+  </div>
+</body>
+</html>

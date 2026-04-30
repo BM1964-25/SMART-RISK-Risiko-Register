@@ -877,10 +877,6 @@ aside {
   box-shadow:0 18px 40px rgba(7,21,38,0.12);
 }
 
-.hero-card-compact.hero-ai-card {
-  margin-top:0;
-}
-
 .hero-mini-stack .hero-card-compact {
   height:100%;
 }

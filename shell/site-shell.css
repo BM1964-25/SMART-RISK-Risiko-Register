@@ -859,8 +859,9 @@ aside {
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:10px;
-  margin-top:12px;
+  margin-top:0;
   width:100%;
+  grid-column:1 / -1;
 }
 
 .hero-matrix-meta span {

@@ -883,21 +883,40 @@ aside {
   flex-direction:column;
   align-items:center;
   gap:4px;
-  padding:14px 16px;
+  width:100%;
+  max-width:220px;
+  margin-left:auto;
+  margin-right:auto;
+  padding:12px 14px;
   border-radius:16px;
   background:linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
   border:1px solid rgba(255,255,255,0.12);
   text-align:center;
 }
 
+.hero-matrix-chip:nth-child(1) {
+  background:linear-gradient(135deg, #f3f4f6, #dbe2ea);
+  border-color:rgba(148,163,184,0.25);
+}
+
+.hero-matrix-chip:nth-child(2) {
+  background:linear-gradient(135deg, #f8b85d, #d98a1f);
+  border-color:rgba(184,136,42,0.40);
+}
+
+.hero-matrix-chip:nth-child(3) {
+  background:linear-gradient(135deg, #d94d3f, #a82418);
+  border-color:rgba(192,57,43,0.40);
+}
+
 .hero-matrix-chip strong {
-  color:#ffffff;
+  color:#08131d;
   font-size:1rem;
   letter-spacing:0.02em;
 }
 
 .hero-matrix-chip span {
-  color:rgba(248,249,251,0.76);
+  color:#08131d;
   font-size:0.9rem;
 }
 

@@ -989,6 +989,55 @@ aside {
   margin-right:0;
 }
 
+.hero-report-card {
+  margin-top:16px;
+  padding:22px;
+  border-radius:24px;
+  background:linear-gradient(160deg, rgba(7,21,38,0.96), rgba(18,45,77,0.94));
+  border:1px solid rgba(255,255,255,0.10);
+  box-shadow:0 28px 58px rgba(7,21,38,0.28);
+  text-align:left;
+}
+
+.hero-report-head {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.hero-report-head h3 {
+  font-family:'DM Serif Display',serif;
+  font-size:1.42rem;
+  line-height:1.05;
+  letter-spacing:-0.02em;
+  color:#ffffff;
+}
+
+.hero-report-lead {
+  margin-top:10px;
+  color:rgba(248,249,251,0.90);
+  font-size:1rem;
+  line-height:1.55;
+  font-weight:700;
+  max-width:60ch;
+}
+
+.hero-report-points {
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+
+.hero-report-points div {
+  padding:14px 16px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  color:rgba(248,249,251,0.88);
+  line-height:1.55;
+  font-size:0.93rem;
+}
+
 .hero-ai-intro,
 .hero-ai-note,
 .hero-ai-footnote {

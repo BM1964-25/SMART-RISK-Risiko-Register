@@ -799,9 +799,9 @@ aside {
   margin-top:16px;
   padding:22px;
   border-radius:24px;
-  background:linear-gradient(160deg, rgba(7,21,38,0.98), rgba(14,39,67,0.96));
-  border:1px solid rgba(255,255,255,0.10);
-  box-shadow:0 28px 58px rgba(7,21,38,0.32);
+  background:linear-gradient(160deg, rgba(12,31,53,0.95), rgba(23,51,80,0.92));
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 30px 64px rgba(7,21,38,0.34);
 }
 
 .hero-mini-stack {
@@ -819,7 +819,7 @@ aside {
 .hero-matrix-copy {
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:8px;
   align-self:start;
   justify-content:flex-start;
   text-align:left;
@@ -936,9 +936,9 @@ aside {
   margin-top:16px;
   padding:22px;
   border-radius:24px;
-  background:linear-gradient(160deg, rgba(7,21,38,0.98), rgba(14,39,67,0.96));
-  border:1px solid rgba(255,255,255,0.10);
-  box-shadow:0 28px 58px rgba(7,21,38,0.32);
+  background:linear-gradient(160deg, rgba(12,31,53,0.95), rgba(23,51,80,0.92));
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 30px 64px rgba(7,21,38,0.34);
   text-align:left;
 }
 
@@ -976,10 +976,11 @@ aside {
   display:flex;
   flex-direction:column;
   align-items:flex-start;
+  gap:8px;
 }
 
 .hero-ai-head h3 {
-  margin-top:12px;
+  margin-top:0;
   font-family:'DM Serif Display',serif;
   font-size:1.55rem;
   line-height:1.05;
@@ -996,7 +997,7 @@ aside {
 }
 
 .hero-ai-lead {
-  margin-top:8px;
+  margin-top:0;
   color:rgba(248,249,251,0.8);
   font-family:'Source Sans 3',sans-serif;
   font-size:0.98rem;
@@ -1018,16 +1019,16 @@ aside {
   margin-top:16px;
   padding:22px;
   border-radius:24px;
-  background:linear-gradient(160deg, rgba(7,21,38,0.96), rgba(18,45,77,0.94));
-  border:1px solid rgba(255,255,255,0.10);
-  box-shadow:0 28px 58px rgba(7,21,38,0.28);
+  background:linear-gradient(160deg, rgba(12,31,53,0.95), rgba(23,51,80,0.92));
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 30px 64px rgba(7,21,38,0.34);
   text-align:left;
 }
 
 .hero-report-head {
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
 }
 
 .hero-report-lead {
@@ -1043,7 +1044,7 @@ aside {
   display:flex;
   flex-direction:column;
   gap:12px;
-  margin-top:16px;
+  margin-top:8px;
   padding-left:1.1rem;
 }
 

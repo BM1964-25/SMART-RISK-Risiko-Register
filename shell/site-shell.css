@@ -898,15 +898,14 @@ aside {
 }
 
 .hero-matrix-visual {
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:grid;
+  place-items:center;
   align-self:end;
-  justify-self:stretch;
-  width:100%;
-  max-width:none;
-  height:220px;
-  min-height:220px;
+  justify-self:end;
+  width:min(100%, 196px);
+  aspect-ratio:1 / 1;
+  height:auto;
+  min-height:0;
   overflow:hidden;
   padding:10px;
   border-radius:20px;

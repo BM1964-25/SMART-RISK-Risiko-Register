@@ -263,9 +263,9 @@ h1 {
   width:fit-content;
   padding:8px 12px;
   border-radius:999px;
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.24);
-  color:#ffffff;
+  background:rgba(248,244,234,0.96);
+  border:1px solid rgba(184,136,42,0.30);
+  color:#091f33;
   font-size:0.9rem;
   line-height:1.1;
   font-weight:800;
@@ -621,9 +621,9 @@ aside {
   margin:18px 0 18px;
   padding:9px 12px;
   border-radius:999px;
-  background:rgba(8,19,29,0.42);
-  color:#ffffff;
-  border:1px solid rgba(255,255,255,0.26);
+  background:rgba(248,244,234,0.96);
+  color:#091f33;
+  border:1px solid rgba(184,136,42,0.28);
   font-size:0.82rem;
   font-weight:800;
   letter-spacing:0.04em;
@@ -669,10 +669,10 @@ aside {
   align-items:center;
   padding:7px 12px;
   border-radius:999px;
-  background:rgba(8,19,29,0.52);
-  color:#ffffff;
-  border:1px solid rgba(255,255,255,0.24);
-  box-shadow:0 8px 18px rgba(7,21,38,0.22);
+  background:rgba(248,244,234,0.96);
+  color:#091f33;
+  border:1px solid rgba(184,136,42,0.30);
+  box-shadow:0 8px 18px rgba(7,21,38,0.12);
 }
 
 .hero .network-node,
@@ -751,9 +751,9 @@ aside {
   padding:8px 12px;
   white-space:nowrap;
   border-radius:999px;
-  background:rgba(255,255,255,0.14);
-  color:#ffffff;
-  border:1px solid rgba(255,255,255,0.24);
+  background:rgba(248,244,234,0.96);
+  color:#091f33;
+  border:1px solid rgba(184,136,42,0.30);
   font-size:0.84rem;
   font-weight:700;
 }
@@ -763,8 +763,8 @@ aside {
   width:8px;
   height:8px;
   border-radius:50%;
-  background:#ffffff;
-  box-shadow:0 0 0 8px rgba(255,255,255,0.14);
+  background:#b8882a;
+  box-shadow:0 0 0 8px rgba(184,136,42,0.14);
 }
 
 .network-card,

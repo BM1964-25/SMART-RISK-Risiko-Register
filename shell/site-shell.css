@@ -799,6 +799,16 @@ aside {
   box-shadow:0 18px 40px rgba(7,21,38,0.12);
 }
 
+.hero-mini-stack {
+  display:grid;
+  gap:14px;
+  margin-top:14px;
+}
+
+.hero-card-compact {
+  padding:16px;
+}
+
 .hero-matrix-copy {
   display:flex;
   flex-direction:column;
@@ -865,6 +875,19 @@ aside {
   box-shadow:0 18px 40px rgba(7,21,38,0.12);
 }
 
+.hero-card-compact.hero-ai-card {
+  margin-top:0;
+}
+
+.hero-card-compact .hero-matrix-copy h3,
+.hero-card-compact .hero-ai-head h3 {
+  font-size:1.18rem;
+}
+
+.hero-card-compact .hero-ai-head {
+  align-items:center;
+}
+
 .hero-ai-head {
   display:flex;
   align-items:flex-start;
@@ -904,6 +927,11 @@ aside {
   grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:10px;
   margin-top:16px;
+}
+
+.hero-card-compact .hero-ai-pills {
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  margin-top:12px;
 }
 
 .hero-ai-pills span {
@@ -949,6 +977,10 @@ aside {
   grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:12px;
   margin-top:16px;
+}
+
+.hero-card-compact .hero-ai-actions {
+  margin-top:12px;
 }
 
 .hero-ai-action {

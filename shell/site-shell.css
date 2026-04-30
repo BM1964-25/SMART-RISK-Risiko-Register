@@ -888,7 +888,7 @@ aside {
   display:flex;
   align-items:center;
   justify-content:center;
-  align-self:start;
+  align-self:end;
   height:220px;
   min-height:220px;
   overflow:hidden;

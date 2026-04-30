@@ -902,7 +902,7 @@ aside {
   place-items:center;
   align-self:end;
   justify-self:end;
-  width:min(100%, 196px);
+  width:min(100%, 172px);
   aspect-ratio:1 / 1;
   height:auto;
   min-height:0;

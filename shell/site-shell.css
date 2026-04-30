@@ -801,6 +801,7 @@ aside {
 
 .hero-mini-stack {
   display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
   gap:14px;
   margin-top:14px;
 }
@@ -877,6 +878,10 @@ aside {
 
 .hero-card-compact.hero-ai-card {
   margin-top:0;
+}
+
+.hero-mini-stack .hero-card-compact {
+  height:100%;
 }
 
 .hero-card-compact .hero-matrix-copy h3,
@@ -1729,6 +1734,10 @@ aside {
     grid-template-columns:1fr;
   }
 
+  .hero-mini-stack {
+    grid-template-columns:1fr;
+  }
+
   .hero-ai-pills,
   .hero-ai-actions {
     grid-template-columns:1fr;
@@ -1788,6 +1797,10 @@ aside {
   .hero-ai-actions {
     grid-template-columns:1fr;
     display:grid;
+  }
+
+  .hero-mini-stack {
+    grid-template-columns:1fr;
   }
 
   .hero-ai-pills {

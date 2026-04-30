@@ -677,7 +677,10 @@ aside {
 
 .panel-head h2 {
   margin-bottom:4px;
-  font-size:1.2rem;
+  font-family:'DM Serif Display',serif;
+  font-size:1.42rem;
+  line-height:1.05;
+  letter-spacing:-0.02em;
 }
 
 .panel-head p {
@@ -846,8 +849,8 @@ aside {
 
 .hero-matrix-lead {
   color:#ffffff;
-  font-size:1.1rem;
-  line-height:1.58;
+  font-size:1.42rem;
+  line-height:1.15;
   font-weight:700;
   margin:0;
 }

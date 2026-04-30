@@ -700,6 +700,11 @@ aside {
   color:#f8f9fb;
 }
 
+.hero .panel-head {
+  border-bottom:1px solid rgba(248,249,251,0.26);
+  padding-bottom:16px;
+}
+
 .hero .section-tag {
   opacity:1;
   display:inline-flex;

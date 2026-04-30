@@ -848,15 +848,17 @@ aside {
 }
 
 .hero-matrix-lead {
-  color:#ffffff;
+  color:#f8f9fb;
   font-family:'DM Serif Display',serif;
-  font-size:1.42rem;
-  line-height:1.08;
-  letter-spacing:-0.02em;
-  font-weight:400;
+  font-size:1.72rem;
+  line-height:1.02;
+  letter-spacing:-0.03em;
+  font-weight:700;
   margin:0;
   max-width:none;
   width:100%;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,0.16);
 }
 
 .hero-matrix-body {

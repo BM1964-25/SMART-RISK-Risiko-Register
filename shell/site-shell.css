@@ -848,8 +848,8 @@ aside {
 .hero-matrix-meta {
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:8px;
-  margin-top:4px;
+  gap:10px;
+  margin-top:12px;
   width:100%;
 }
 
@@ -857,15 +857,15 @@ aside {
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:32px;
-  padding:8px 10px;
+  min-height:28px;
+  padding:6px 8px;
   border-radius:999px;
   background:linear-gradient(135deg, rgba(244,246,248,0.95), rgba(228,232,237,0.95));
   border:1px solid rgba(148,163,184,0.18);
   color:#102741;
-  font-size:0.8rem;
+  font-size:0.74rem;
   font-weight:800;
-  letter-spacing:0.03em;
+  letter-spacing:0.02em;
   text-align:center;
 }
 

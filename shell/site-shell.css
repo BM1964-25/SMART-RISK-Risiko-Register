@@ -679,6 +679,61 @@ aside {
   color:rgba(248,249,251,0.9);
 }
 
+.hero .network-node,
+.hero .insight-card {
+  text-align:center;
+}
+
+.hero .network-node strong,
+.hero .network-node .network-value,
+.hero .network-node p,
+.hero .network-node small,
+.hero .insight-card strong,
+.hero .insight-card p {
+  color:#08131d;
+  text-align:center;
+}
+
+.hero .network-grid {
+  justify-items:stretch;
+}
+
+.hero .insight-stack {
+  text-align:center;
+}
+
+.hero .insight-card {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:160px;
+}
+
+.hero .network-node {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-summary-card {
+  text-align:center;
+}
+
+.hero-summary-card strong,
+.hero-summary-card .network-value,
+.hero-summary-card p,
+.hero-summary-card small {
+  color:#08131d !important;
+  text-align:center;
+}
+
+.hero-summary-card p,
+.hero-summary-card small {
+  max-width:28ch;
+}
+
 .status-pill {
   display:inline-flex;
   align-items:center;

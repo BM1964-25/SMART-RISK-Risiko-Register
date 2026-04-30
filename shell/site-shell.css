@@ -281,11 +281,12 @@ h1 {
 
 .purchase-notice {
   margin-top:0;
-  max-width:68ch;
+  width:100%;
+  max-width:none;
   color:var(--muted);
-  font-size:0.74rem;
-  line-height:0.92;
-  letter-spacing:-0.01em;
+  font-size:0.70rem;
+  line-height:0.86;
+  letter-spacing:-0.015em;
 }
 
 .header-right {

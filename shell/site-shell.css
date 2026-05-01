@@ -473,8 +473,8 @@ aside {
   flex-direction:column;
   gap:14px;
   height:100%;
-  padding-bottom:18px;
-  transform:translateY(-8px);
+  padding:24px;
+  transform:none;
 }
 
 .eyebrow {
@@ -640,13 +640,13 @@ aside {
   position:relative;
   z-index:1;
   align-self:stretch;
-  padding:28px;
+  padding:24px;
   border-radius:30px;
   border:1px solid transparent;
   background:transparent;
   color:#f8f9fb;
   box-shadow:none;
-  transform:translateY(-8px);
+  transform:none;
 }
 
 .panel-badge {
@@ -805,7 +805,7 @@ aside {
   grid-template-columns:minmax(0, 1.5fr) minmax(220px, 0.9fr);
   gap:16px;
   align-items:start;
-  margin-top:16px;
+  margin-top:14px;
   padding:18px;
   border-radius:26px;
   background:linear-gradient(160deg, rgba(250,252,255,0.98), rgba(239,244,249,0.96));
@@ -930,7 +930,7 @@ aside {
 }
 
 .hero-ai-card {
-  margin-top:16px;
+  margin-top:14px;
   padding:24px;
   border-radius:26px;
   background:linear-gradient(160deg, rgba(250,252,255,0.98), rgba(239,244,249,0.96));
@@ -1184,8 +1184,8 @@ aside {
   align-items:center;
   justify-content:space-between;
   gap:16px;
-  margin-top:18px;
-  padding-top:14px;
+  margin-top:14px;
+  padding-top:12px;
   color:rgba(248,249,251,0.9);
   font-size:0.82rem;
   border-top:1px solid rgba(248,249,251,0.26);

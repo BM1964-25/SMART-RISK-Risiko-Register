@@ -1789,9 +1789,10 @@ aside {
 }
 
 .cta-actions .btn-light {
-  background:linear-gradient(135deg, #eef5fc, #d9e7f6);
-  color:#15324f;
-  border-color:rgba(120,155,196,0.38);
+  background:transparent;
+  color:#0d2340;
+  border-color:#0d2340;
+  box-shadow:none;
 }
 
 .cta-access-link {

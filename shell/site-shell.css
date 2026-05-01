@@ -1638,6 +1638,15 @@ aside {
   color:#ffffff;
 }
 
+.price-tax {
+  display:block;
+  margin-top:4px;
+  color:rgba(246,250,248,0.68);
+  font-size:0.68rem;
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+
 .price-block.featured .price-copy {
   color:rgba(246,250,248,0.82);
   text-align:center;

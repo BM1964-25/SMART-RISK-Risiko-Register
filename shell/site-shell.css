@@ -806,7 +806,7 @@ aside {
   gap:16px;
   align-items:start;
   margin-top:16px;
-  padding:22px;
+  padding:18px;
   border-radius:26px;
   background:linear-gradient(160deg, rgba(250,252,255,0.98), rgba(239,244,249,0.96));
   border:1px solid rgba(15,36,68,0.08);
@@ -823,14 +823,14 @@ aside {
 }
 
 .hero-card-compact {
-  padding:28px;
+  padding:24px;
 }
 
 .hero-matrix-copy {
   display:flex;
   flex-direction:column;
   gap:8px;
-  align-self:start;
+  align-self:stretch;
   justify-content:flex-start;
   text-align:left;
 }
@@ -895,7 +895,7 @@ aside {
 .hero-matrix-visual {
   display:grid;
   place-items:center;
-  align-self:end;
+  align-self:center;
   justify-self:end;
   width:min(100%, 176px);
   aspect-ratio:1 / 1;
@@ -931,7 +931,7 @@ aside {
 
 .hero-ai-card {
   margin-top:16px;
-  padding:28px;
+  padding:24px;
   border-radius:26px;
   background:linear-gradient(160deg, rgba(250,252,255,0.98), rgba(239,244,249,0.96));
   border:1px solid rgba(15,36,68,0.08);

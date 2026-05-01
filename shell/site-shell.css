@@ -1607,6 +1607,7 @@ aside {
   border:1px solid rgba(18,63,99,0.12);
   background:linear-gradient(180deg, #fbfdff, #edf3fb);
   min-height:100%;
+  text-align:center;
 }
 
 .price-block.featured {
@@ -1658,6 +1659,12 @@ aside {
   margin:0;
   color:var(--muted);
   line-height:1.65;
+  text-align:center;
+}
+
+.price-block .price-label,
+.price-block .price-copy {
+  width:100%;
 }
 
 .pricing-detail {

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://BM1964-25.github.io/Risikoregister/sitemap.xml

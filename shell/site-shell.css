@@ -1550,7 +1550,7 @@ aside {
 }
 
 .pricing-card {
-  padding:34px;
+  padding:28px;
   border-radius:24px;
   border:1px solid rgba(181,139,66,0.22);
   background:radial-gradient(circle at top right, rgba(181,139,66,0.28), transparent 22%), linear-gradient(145deg, #fffdfa, #f6f2e8);
@@ -1668,7 +1668,7 @@ aside {
   display:grid;
   grid-template-columns:1fr;
   gap:0;
-  padding:38px;
+  padding:28px;
   margin-top:86px;
   margin-bottom:18px;
   background:radial-gradient(circle at top right, rgba(181,139,66,0.24), transparent 24%), radial-gradient(circle at bottom left, rgba(21,63,54,0.12), transparent 28%), linear-gradient(145deg, #fefcf7, #eef4f1);
@@ -1679,7 +1679,7 @@ aside {
 .cta-band h2 {
   margin-bottom:16px;
   font-family:'DM Serif Display',serif;
-  font-size:clamp(1.9rem, 3.3vw, 3rem);
+  font-size:clamp(1.75rem, 3vw, 2.7rem);
   line-height:1.02;
   letter-spacing:-0.035em;
   max-width:none;

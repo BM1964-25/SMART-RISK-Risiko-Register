@@ -459,9 +459,9 @@ aside {
   gap:18px;
   align-items:stretch;
   background:
-    radial-gradient(circle at top left, rgba(120,155,196,0.14), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(120,155,196,0.08), transparent 24%),
-    linear-gradient(135deg, #04111f 0%, #081e34 52%, #0d2a4a 100%);
+    radial-gradient(circle at top left, rgba(120,155,196,0.12), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(120,155,196,0.06), transparent 22%),
+    linear-gradient(135deg, #020911 0%, #061428 50%, #0b2440 100%);
   border:1px solid rgba(255,255,255,0.08);
   border-radius:32px;
   box-shadow:0 30px 92px rgba(2,10,18,0.34);

@@ -1711,7 +1711,7 @@ aside {
   grid-template-columns:1fr;
   gap:0;
   padding:28px;
-  margin-top:19px;
+  margin-top:15px;
   margin-bottom:12px;
   background:radial-gradient(circle at top right, rgba(120,155,196,0.24), transparent 24%), radial-gradient(circle at bottom left, rgba(15,36,68,0.10), transparent 28%), linear-gradient(145deg, #f7fbff, #eaf2fb);
   border:1px solid rgba(18,63,99,0.16);

@@ -1669,7 +1669,8 @@ aside {
   grid-template-columns:1fr;
   gap:0;
   padding:38px;
-  margin-top:74px;
+  margin-top:86px;
+  margin-bottom:18px;
   background:radial-gradient(circle at top right, rgba(181,139,66,0.24), transparent 24%), radial-gradient(circle at bottom left, rgba(21,63,54,0.12), transparent 28%), linear-gradient(145deg, #fefcf7, #eef4f1);
   border:1px solid rgba(181,139,66,0.18);
   box-shadow:0 30px 80px rgba(120,92,28,0.12);
@@ -1760,7 +1761,7 @@ aside {
   align-items:center;
   justify-content:space-between;
   gap:16px;
-  padding-top:34px;
+  padding-top:48px;
   color:var(--muted);
   font-size:0.92rem;
 }
@@ -1768,7 +1769,7 @@ aside {
 .footer-links {
   display:flex;
   flex-wrap:wrap;
-  gap:14px 18px;
+  gap:16px 22px;
 }
 
 .footer-links a {
@@ -1785,7 +1786,7 @@ aside {
 
 .footer-links a + a {
   position:relative;
-  padding-left:18px;
+  padding-left:20px;
 }
 
 .footer-links a + a::before {

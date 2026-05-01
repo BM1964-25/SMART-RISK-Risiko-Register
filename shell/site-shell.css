@@ -1556,9 +1556,9 @@ aside {
 .pricing-card {
   padding:28px;
   border-radius:24px;
-  border:1px solid rgba(181,139,66,0.22);
-  background:radial-gradient(circle at top right, rgba(181,139,66,0.28), transparent 22%), linear-gradient(145deg, #fffdfa, #f6f2e8);
-  box-shadow:0 32px 80px rgba(120,92,28,0.14);
+  border:1px solid rgba(18,63,99,0.16);
+  background:radial-gradient(circle at top right, rgba(120,155,196,0.22), transparent 22%), linear-gradient(145deg, #f7fbff, #eaf2fb);
+  box-shadow:0 32px 80px rgba(7,21,38,0.12);
 }
 
 .pricing-topline {
@@ -1568,8 +1568,8 @@ aside {
   padding:8px 12px;
   margin-bottom:18px;
   border-radius:999px;
-  background:rgba(181,139,66,0.22);
-  color:#6b4e1c;
+  background:rgba(120,155,196,0.18);
+  color:var(--brand-mid);
 }
 
 .pricing-card h3 {
@@ -1603,8 +1603,8 @@ aside {
 .price-block {
   padding:22px;
   border-radius:20px;
-  border:1px solid rgba(181,139,66,0.14);
-  background:linear-gradient(180deg, #fffefb, #f7f2e7);
+  border:1px solid rgba(18,63,99,0.12);
+  background:linear-gradient(180deg, #fbfdff, #edf3fb);
 }
 
 .price-block.featured {
@@ -1661,14 +1661,14 @@ aside {
 .pricing-detail {
   padding:20px;
   border-radius:18px;
-  border:1px solid rgba(181,139,66,0.12);
-  background:linear-gradient(180deg, #fffefb, #fbf7ef);
+  border:1px solid rgba(18,63,99,0.10);
+  background:linear-gradient(180deg, #fbfdff, #eef4fb);
 }
 
 .pricing-detail strong {
   display:block;
   margin-bottom:12px;
-  color:var(--brand);
+  color:var(--brand-mid);
   font-size:0.94rem;
   letter-spacing:0.08em;
   text-transform:uppercase;
@@ -1691,9 +1691,9 @@ aside {
   padding:28px;
   margin-top:42px;
   margin-bottom:12px;
-  background:radial-gradient(circle at top right, rgba(181,139,66,0.24), transparent 24%), radial-gradient(circle at bottom left, rgba(21,63,54,0.12), transparent 28%), linear-gradient(145deg, #fefcf7, #eef4f1);
-  border:1px solid rgba(181,139,66,0.18);
-  box-shadow:0 30px 80px rgba(120,92,28,0.12);
+  background:radial-gradient(circle at top right, rgba(120,155,196,0.24), transparent 24%), radial-gradient(circle at bottom left, rgba(15,36,68,0.10), transparent 28%), linear-gradient(145deg, #f7fbff, #eaf2fb);
+  border:1px solid rgba(18,63,99,0.16);
+  box-shadow:0 30px 80px rgba(7,21,38,0.10);
 }
 
 .cta-band h2 {
@@ -1754,9 +1754,9 @@ aside {
 }
 
 .cta-actions .btn-light {
-  background:linear-gradient(135deg, #1f7a4d, #0f5a36);
+  background:linear-gradient(135deg, #1e3a5f, #0d2340);
   color:#ffffff;
-  border-color:rgba(42,138,93,0.58);
+  border-color:rgba(120,155,196,0.44);
 }
 
 .cta-access-link {

@@ -1696,6 +1696,19 @@ aside {
   box-shadow:0 30px 80px rgba(7,21,38,0.10);
 }
 
+.cta-band .section-tag {
+  display:inline-flex;
+  width:fit-content;
+  align-items:center;
+  padding:8px 12px;
+  margin-bottom:14px;
+  border-radius:999px;
+  background:rgba(120,155,196,0.18);
+  color:var(--brand-mid);
+  border:1px solid rgba(120,155,196,0.22);
+  box-shadow:0 8px 18px rgba(7,21,38,0.08);
+}
+
 .cta-band h2 {
   margin-bottom:16px;
   font-family:'DM Serif Display',serif;

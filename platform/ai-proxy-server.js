@@ -154,7 +154,13 @@ function serveStatic(req, res) {
   const requestPath = req.url === "/" ? "/index.html" : req.url.split("?")[0];
   if (req.url === "/") {
     setCors(res);
-    res.writeHead(302, { Location: "/Risiko%20Register/index.html?fresh=401" });
+    res.writeHead(302, { Location: "/Risiko%20Register/app/index.html?fresh=401" });
+    res.end();
+    return;
+  }
+  if (requestPath === "/Risiko%20Register/index.html" || requestPath === "/Risiko%20Register/") {
+    setCors(res);
+    res.writeHead(302, { Location: "/Risiko%20Register/app/index.html?fresh=401" });
     res.end();
     return;
   }

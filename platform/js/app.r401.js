@@ -1,5 +1,5 @@
-import { createStore, cloneState } from "./state.r342.js?fresh=410";
-import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=917";
+import { createStore, cloneState } from "./state.r342.js?fresh=412";
+import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=919";
 
 const store = createStore(cloneState());
 if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -1520,6 +1520,9 @@ function buildAiWorkshopSystemPrompt(task) {
         "Nutze ausschließlich die gelieferten Daten und den mitgelieferten Berichtsdraft.",
         "Erstelle keinen Kurztext, sondern einen gut ausformulierten Bericht mit erkennbarer Struktur.",
         "Struktur: Executive Summary, Lagebild, Risikoregister im Fokus, Kritische Risiken in Bearbeitung, Kritische offene Risiken, Erhöhte offene Risiken, Überfällige Risiken, Priorisierte Risiken, Maßnahmen, Restgefahr, Steuerungsprioritäten, Nächste Schritte, Hinweise.",
+        "Nutze die exakten Abschnittsüberschriften und schreibe keine Vorrede vor dem ersten Abschnitt.",
+        "Arbeite priorisiert von belastbaren Fakten zu abgeleiteten Einschätzungen und dann zu konkreten Handlungsmaßnahmen.",
+        "Wenn ein Abschnitt keine belastbaren Inhalte hat, sage das kurz und fachlich sauber statt zu füllen oder zu wiederholen.",
         "Formuliere wie in einem Managementbericht: präzise, konsistent, ohne Werbesprache und ohne lockere Umgangssprache.",
         "Wenn Informationen fehlen, erwähne die Lücke in sachlicher Form und nenne die fachliche Auswirkung.",
         "Vermeide Wiederholungen zwischen den Abschnitten. Jeder Abschnitt soll einen eigenen fachlichen Mehrwert haben.",
@@ -1539,6 +1542,9 @@ function buildAiWorkshopSystemPrompt(task) {
         "Form: {\"resultType\":\"risk-suggestion\",\"items\":[{\"title\":\"\",\"description\":\"\",\"category\":\"\",\"phase\":\"\",\"owner\":\"\",\"probabilityPercent\":0,\"likelihood\":0,\"impact\":0,\"financialImpact\":0,\"measures\":\"\",\"residualRisk\":\"\"}]}",
         "Der Vorschlag soll die Werte 'Schaden in Euro', 'Eintrittswahrscheinlichkeit in %' und 'Erwarteter Schaden' untereinander darstellen.",
         "Die Eintrittswahrscheinlichkeit (1-5) und der Erwartete Schaden werden von der App abgeleitet bzw. angezeigt.",
+        "Fülle title, description und measures so, dass sie unmittelbar in einem professionellen Risikoregister verwendbar sind.",
+        "Verwende bei category möglichst prägnante Fachkategorien wie technisch, terminlich, kostenbezogen, vertraglich, genehmigungsbezogen, qualität, stakeholder, schnittstellenbezogen oder sonstige.",
+        "Wenn owner, phase oder financialImpact nicht sicher ableitbar sind, lasse das Feld leer oder setze 0 bei Zahlenfeldern.",
         "Das Feld 'residualRisk' ist ausschließlich qualitativ zu formulieren. Keine Euro-Beträge und keine Scheingenauigkeit.",
         "Liefere genau einen Eintrag. Dieser Flow erzeugt immer genau ein neues Risiko."
       ].join(" ");
@@ -1549,6 +1555,9 @@ function buildAiWorkshopSystemPrompt(task) {
         "Form: {\"resultType\":\"risk-measures\",\"items\":[{\"riskId\":\"\",\"measures\":\"\",\"residualRisk\":\"\",\"owner\":\"\",\"dueDate\":\"\"}]}",
         "Erzeuge genau einen Eintrag für genau ein Zielrisiko.",
         "Verwende ausschließlich das ausgewählte Zielrisiko aus dem Kontext und nenne dessen riskId im Feld riskId.",
+        "Formuliere measures als konkrete, prüfbare Maßnahmen mit klaren Verben und fachlicher Zuständigkeit.",
+        "Wenn owner nicht ableitbar ist, lasse das Feld leer statt zu raten.",
+        "Wenn dueDate nicht belastbar ableitbar ist, lasse das Feld leer statt ein Fantasiedatum zu erzeugen.",
         "Das Feld 'residualRisk' ist ausschließlich qualitativ zu formulieren. Keine Euro-Beträge und keine Scheingenauigkeit."
       ].join(" ");
     default:
@@ -2149,10 +2158,12 @@ function buildAiChatSystemPrompt(chatId) {
       "Erkläre die Bedienung der Software, Menüs, Felder, Buttons, Speicherwege und den Weg zwischen Projekt, Berichten, Risikoregister und KI.",
       "Antworte auf Deutsch, freundlich, klar und schrittweise.",
       "Nutze einen professionellen Support-Stil: zuerst die direkte Antwort, danach 2 bis 5 konkrete Schritte oder Hinweise.",
+      "Gib die Antwort in dieser Reihenfolge aus: Kurzantwort, Schritte, kurzer Hinweis.",
       "Nenne Menüs, Schaltflächen und Bereiche exakt so, wie sie in der Anwendung heißen.",
       "Wenn eine Frage fachlich über die Bedienung hinausgeht, sage das kurz und verweise an den Fach-Chat.",
       "Wenn die Frage fachlich zu Bauprojekten oder Risikomanagement gehört, verweise kurz auf den Fach-Chat.",
       "Bleibe sachlich, präzise und lösungsorientiert; keine Floskeln, kein Smalltalk, keine Abschweifungen.",
+      "Nutze knappe, aber vollständige Sätze. Wenn etwas unklar ist, stelle genau eine präzise Rückfrage statt zu raten.",
       "Erfinde keine Funktionen, die in der Anwendung nicht vorhanden sind."
     ].join(" ");
   }
@@ -2161,9 +2172,11 @@ function buildAiChatSystemPrompt(chatId) {
     "Beantworte Fragen zu Risiken, Maßnahmen, Projektphasen, Bauabläufen, Berichtsinhalten und Plausibilität.",
     "Antworte auf Deutsch, fachlich präzise und praxisnah.",
     "Nutze einen beratungsnahen Stil: zuerst die Kernaussage, dann die fachliche Einordnung und zum Schluss die empfohlenen nächsten Schritte.",
+    "Gib die Antwort in dieser Reihenfolge aus: Kernaussage, fachliche Einordnung, konkrete Empfehlung.",
     "Wenn Daten fehlen oder die Lage unsicher ist, benenne die Unsicherheit klar statt zu spekulieren.",
     "Bevorzuge konkrete Formulierungen, Prioritäten und nachvollziehbare Empfehlungen statt allgemeiner Floskeln.",
     "Formuliere so, dass die Antwort unmittelbar in einem professionellen Projektkontext verwendbar ist.",
+    "Nutze kurze Absätze, vermeide unnötige Wiederholungen und nenne bei Bedarf eine priorisierte To-do-Liste mit maximal drei Punkten.",
     "Nutze den gelieferten Projektkontext und die Risikosituation.",
     "Wenn die Frage nur die Bedienung der Software betrifft, verweise kurz auf den Hilfe-Chat."
   ].join(" ");
@@ -2186,6 +2199,10 @@ function buildAiChatUserPrompt(state, chatId, question) {
     "- Nutze den Kontext, aber erfinde keine fehlenden Daten.",
     "- Wenn Angaben fehlen, nenne das klar.",
     "- Schreibe auf Deutsch und nutze nur so viel Struktur wie nötig.",
+    "- Halte die Antwort knapp, aber vollständig. Keine Meta-Hinweise, keine Floskeln, keine Wiederholungen.",
+    normalizedChatId === "hilfe"
+      ? "- Format: Kurzantwort, dann Schritte, dann ein kurzer Hinweis."
+      : "- Format: Kernaussage, dann fachliche Einordnung, dann konkrete Empfehlung.",
     "",
     "Kontext:",
     JSON.stringify(context, null, 2),

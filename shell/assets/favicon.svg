@@ -1,10 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="RR">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="SMART RISK">
   <defs>
     <linearGradient id="f" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0B1F3A"/>
-      <stop offset="100%" stop-color="#163758"/>
+      <stop offset="0%" stop-color="#49a0ff"/>
+      <stop offset="100%" stop-color="#0B66E3"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="url(#f)"/>
-  <text x="32" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">RR</text>
+  <rect x="17" y="17" width="30" height="30" rx="8" fill="#ffffff"/>
+  <circle cx="25" cy="25" r="3.5" fill="#e03b3b"/>
+  <circle cx="25" cy="34" r="3.5" fill="#f4b11f"/>
+  <circle cx="25" cy="43" r="3.5" fill="#2db54a"/>
+  <rect x="31" y="23" width="12" height="3.5" rx="1.75" fill="#bfd2ea"/>
+  <rect x="31" y="32" width="12" height="3.5" rx="1.75" fill="#7fb4ff"/>
+  <rect x="31" y="41" width="12" height="3.5" rx="1.75" fill="#bfd2ea"/>
 </svg>

@@ -4,8 +4,8 @@ Dieses Projekt ist die eigenständige Auskopplung des Risikoregisters.
 
 ## GitHub-Links
 
-- Landingpage: `https://BM1964-25.github.io/Risikoregister/shell/landing.html`
-- Anwendung: `https://BM1964-25.github.io/Risikoregister/app/`
+- Landingpage: `https://bm1964-25.github.io/SMART-RISK-Risiko-Register/shell/landing.html`
+- Anwendung: `https://bm1964-25.github.io/SMART-RISK-Risiko-Register/app/`
 
 ## Ordner
 

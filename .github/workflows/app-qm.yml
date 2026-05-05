@@ -32,11 +32,21 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Sync app JavaScript
+        run: node scripts/sync-app-files.mjs
+
       - name: Run app QM checks
         run: node scripts/app-qm-check.mjs
 
   browser-smoke:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chromium
+          - firefox
+          - webkit
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,10 +56,13 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Sync app JavaScript
+        run: node scripts/sync-app-files.mjs
+
       - name: Install Playwright
         run: |
           npm install --no-save playwright@1.54.2
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Run browser smoke test
-        run: node scripts/app-browser-smoke.mjs
+        run: node scripts/app-browser-smoke.mjs ${{ matrix.browser }}

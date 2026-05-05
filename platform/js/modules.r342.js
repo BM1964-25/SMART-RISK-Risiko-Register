@@ -3231,6 +3231,11 @@ export const modules = {
                       <label for="aiApiKey">Anthropic API-Schlüssel</label>
                       <input id="aiApiKey" data-ai-setting-field="apiKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" value="" placeholder="sk- ..." style="-webkit-text-security:disc;">
                     </div>
+                    <div class="form-field" style="grid-column:1/-1;">
+                      <label for="aiProxyBaseUrl">KI-Proxy-URL</label>
+                      <input id="aiProxyBaseUrl" data-ai-setting-field="proxyBaseUrl" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" value="" placeholder="https://dein-proxy.example.com">
+                      <p class="form-note">Optional. Lokal kannst du `http://127.0.0.1:8171` nutzen, für GitHub Pages brauchst du eine erreichbare Proxy-URL.</p>
+                    </div>
                   </div>
                   <div class="ai-connection-controls">
                     <button class="action-btn primary" id="saveAiSettingsBtn" type="button" onclick="void globalThis.__riskSaveAiSettings?.()">Einstellungen speichern</button>

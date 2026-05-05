@@ -6,6 +6,7 @@ const rootDir = path.resolve(process.cwd());
 const appDir = path.join(rootDir, "app");
 const appIndexPath = path.join(appDir, "index.html");
 const appUrlPath = "/index.html";
+const browserName = String(process.argv[2] || "chromium").trim();
 
 function contentTypeFor(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -51,7 +52,15 @@ function createServer(baseDir) {
 }
 
 async function main() {
-  const { chromium } = await import("playwright");
+  const { chromium, firefox, webkit } = await import("playwright");
+  const browserType = {
+    chromium,
+    firefox,
+    webkit
+  }[browserName];
+  if (!browserType) {
+    throw new Error(`Unbekannter Browser: ${browserName}`);
+  }
   const server = createServer(appDir);
 
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
@@ -60,7 +69,7 @@ async function main() {
     throw new Error("Server address konnte nicht ermittelt werden.");
   }
   const baseUrl = `http://127.0.0.1:${address.port}`;
-  const browser = await chromium.launch({ headless: true });
+  const browser = await browserType.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
   const errors = [];
 
@@ -120,6 +129,7 @@ async function main() {
 
     process.stdout.write([
       "Browser-Smoke-Test bestanden.",
+      `Browser: ${browserName}`,
       `App geladen: ${baseUrl}${appUrlPath}`,
       `KI-Kartenhöhe: ${heights[0]} px`
     ].join("\n"));

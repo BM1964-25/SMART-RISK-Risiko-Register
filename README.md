@@ -16,6 +16,7 @@ Dieses Projekt ist die eigenständige Auskopplung des Risikoregisters.
 - `app/`
   Für die eigentliche Fachanwendung des Risiko Registers.
   Das ist die Arbeitskopie der Anwendung; aktuell noch aus `platform/` gespiegelt.
+  Die KI-Funktionen nutzen einen konfigurierbaren Proxy-Endpunkt in der KI-Verbindung.
 
 - `integrations/`
   Für Supabase, Stripe, Redirects und andere technische Schnittstellen.
@@ -46,6 +47,14 @@ Dieses Projekt ist die eigenständige Auskopplung des Risikoregisters.
 
 - `site-shell.css`
   Gemeinsame Layout- und Designbasis fuer die neue Huelle, lädt die Shell-Styles.
+
+## Veröffentlichung
+
+- Die App wird über GitHub Pages aus `app/` veröffentlicht.
+- Die KI-Anbindung läuft nicht direkt über GitHub Pages, sondern über einen separaten Proxy-Endpunkt.
+- In der App lässt sich die `KI-Proxy-URL` in der Kachel `KI-Verbindung` setzen.
+- Lokal kannst du `http://127.0.0.1:8171` verwenden.
+- Für die veröffentlichte App brauchst du eine erreichbare Proxy-URL im Web.
 
 ## Empfehlung
 

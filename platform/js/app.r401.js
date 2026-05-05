@@ -29,6 +29,7 @@ const RECENT_PROJECT_FILES_DB_NAME = "project_controls_hub_recent_project_files_
 const RECENT_PROJECT_FILES_DB_STORE = "projectFiles";
 const AI_SETTINGS_KEY = "project_controls_hub_ai_settings_v1";
 const AI_CHAT_STATE_KEY = "project_controls_hub_ai_chats_v1";
+const DEFAULT_AI_PROXY_BASE_URL = "http://127.0.0.1:8171";
 const uiDrafts = globalThis.__riskRegisterUiDrafts || (globalThis.__riskRegisterUiDrafts = {});
 const aiChatDrafts = uiDrafts.aiChatDrafts || (uiDrafts.aiChatDrafts = {});
 let aiWorkshopFreeTextPersistTimer = null;
@@ -490,6 +491,7 @@ function getDefaultAiSettings() {
   return {
     provider: "anthropic",
     apiKey: "",
+    proxyBaseUrl: "",
     modelProfile: "balanced",
     connected: false,
     testing: false,
@@ -506,6 +508,7 @@ function normalizeAiSettings(raw = {}) {
     ...getDefaultAiSettings(),
     provider,
     apiKey: typeof raw.apiKey === "string" ? raw.apiKey : "",
+    proxyBaseUrl: normalizeAiProxyBaseUrl(raw.proxyBaseUrl),
     modelProfile: "balanced",
     connected: raw.connected === true,
     testing: raw.testing === true,
@@ -514,6 +517,24 @@ function normalizeAiSettings(raw = {}) {
     lastDisconnectAt: typeof raw.lastDisconnectAt === "string" ? raw.lastDisconnectAt : null,
     lastStatus: typeof raw.lastStatus === "string" && raw.lastStatus.trim() ? raw.lastStatus : getDefaultAiSettings().lastStatus
   };
+}
+
+function normalizeAiProxyBaseUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  try {
+    const url = new URL(raw, DEFAULT_AI_PROXY_BASE_URL);
+    if (!/^https?:$/i.test(url.protocol)) return "";
+    return `${url.origin}${url.pathname.replace(/\/+$/, "")}`;
+  } catch (_error) {
+    return "";
+  }
+}
+
+function buildAiProxyUrl(pathname) {
+  const proxyBaseUrl = normalizeAiProxyBaseUrl(aiSettings.proxyBaseUrl);
+  const cleanPath = String(pathname || "").startsWith("/") ? String(pathname || "") : `/${String(pathname || "")}`;
+  return proxyBaseUrl ? `${proxyBaseUrl}${cleanPath}` : cleanPath;
 }
 
 function loadAiSettings() {
@@ -1053,6 +1074,7 @@ function setSecondaryPanelVisibility(panelId, visible) {
 function renderAiSettingsPanel() {
   const panel = document.getElementById("aiConnectionPanel");
   const apiKeyInput = document.getElementById("aiApiKey");
+  const proxyBaseUrlInput = document.getElementById("aiProxyBaseUrl");
   const statusTarget = document.getElementById("aiStatus");
   const testButton = document.getElementById("testAiSettingsBtn");
   const disconnectButton = document.getElementById("disconnectAiSettingsBtn");
@@ -1064,6 +1086,9 @@ function renderAiSettingsPanel() {
   }
   if (apiKeyInput && (!String(aiSettings.apiKey || "").trim() || document.activeElement !== apiKeyInput)) {
     apiKeyInput.value = aiSettings.apiKey || "";
+  }
+  if (proxyBaseUrlInput && document.activeElement !== proxyBaseUrlInput) {
+    proxyBaseUrlInput.value = aiSettings.proxyBaseUrl || "";
   }
   if (statusTarget) {
     const statusText = getAiStatusLabel(aiSettings);
@@ -1094,10 +1119,12 @@ function resetAiApiKeyInput() {
 
 function readAiSettingsFromPanel() {
   const apiKey = String(document.getElementById("aiApiKey")?.value || "");
+  const proxyBaseUrl = String(document.getElementById("aiProxyBaseUrl")?.value || "");
   return normalizeAiSettings({
     provider: "anthropic",
     modelProfile: "balanced",
     apiKey,
+    proxyBaseUrl,
     connected: aiSettings.connected,
     testing: aiSettings.testing,
     lastSavedAt: aiSettings.lastSavedAt,
@@ -1148,7 +1175,7 @@ async function startAiConnectionTest() {
   const connectionTimeout = window.setTimeout(() => aiConnectionAbortController?.abort(), 12000);
 
   try {
-    const response = await fetch("/api/ai/test", {
+    const response = await fetch(buildAiProxyUrl("/api/ai/test"), {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -1436,7 +1463,7 @@ async function runAiWorkshopQuestionTask(task) {
   });
 
   try {
-    const response = await fetch("/api/ai/generate", {
+    const response = await fetch(buildAiProxyUrl("/api/ai/generate"), {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -1496,6 +1523,8 @@ function buildAiWorkshopSystemPrompt(task) {
         "Formuliere wie in einem Managementbericht: präzise, konsistent, ohne Werbesprache und ohne lockere Umgangssprache.",
         "Wenn Informationen fehlen, erwähne die Lücke in sachlicher Form und nenne die fachliche Auswirkung.",
         "Vermeide Wiederholungen zwischen den Abschnitten. Jeder Abschnitt soll einen eigenen fachlichen Mehrwert haben.",
+        "Bevorzuge belastbare Aussagen, klare Prioritäten und konkrete Handlungsempfehlungen gegenüber allgemeinen Formulierungen.",
+        "Nutze möglichst neutrale, gut prüfbare Formulierungen und vermeide spekulative Spitzenbegriffe.",
         "Schreibe in zusammenhängender Prosa mit kurzen, abgeschlossenen Absätzen und ohne Aufzählungszeichen.",
         "Nutze keine Markdown-Zeichen wie # oder ähnliche technische Markierungen.",
         "Formuliere nicht nur Stichpunkte, sondern kurze erläuternde Absätze pro Abschnitt.",
@@ -1954,7 +1983,7 @@ async function runAiWorkshopTask(task) {
   startAiWorkshopProgressTimer(task);
 
   try {
-    const response = await fetch("/api/ai/generate", {
+    const response = await fetch(buildAiProxyUrl("/api/ai/generate"), {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -2123,6 +2152,7 @@ function buildAiChatSystemPrompt(chatId) {
       "Nenne Menüs, Schaltflächen und Bereiche exakt so, wie sie in der Anwendung heißen.",
       "Wenn eine Frage fachlich über die Bedienung hinausgeht, sage das kurz und verweise an den Fach-Chat.",
       "Wenn die Frage fachlich zu Bauprojekten oder Risikomanagement gehört, verweise kurz auf den Fach-Chat.",
+      "Bleibe sachlich, präzise und lösungsorientiert; keine Floskeln, kein Smalltalk, keine Abschweifungen.",
       "Erfinde keine Funktionen, die in der Anwendung nicht vorhanden sind."
     ].join(" ");
   }
@@ -2133,6 +2163,7 @@ function buildAiChatSystemPrompt(chatId) {
     "Nutze einen beratungsnahen Stil: zuerst die Kernaussage, dann die fachliche Einordnung und zum Schluss die empfohlenen nächsten Schritte.",
     "Wenn Daten fehlen oder die Lage unsicher ist, benenne die Unsicherheit klar statt zu spekulieren.",
     "Bevorzuge konkrete Formulierungen, Prioritäten und nachvollziehbare Empfehlungen statt allgemeiner Floskeln.",
+    "Formuliere so, dass die Antwort unmittelbar in einem professionellen Projektkontext verwendbar ist.",
     "Nutze den gelieferten Projektkontext und die Risikosituation.",
     "Wenn die Frage nur die Bedienung der Software betrifft, verweise kurz auf den Hilfe-Chat."
   ].join(" ");
@@ -2288,7 +2319,7 @@ async function runAiChatQuestion(chatId, question, keepDraft = false) {
 
   try {
     const currentState = store.getState();
-    const response = await fetch("/api/ai/generate", {
+    const response = await fetch(buildAiProxyUrl("/api/ai/generate"), {
       method: "POST",
       headers: {
         "content-type": "application/json"

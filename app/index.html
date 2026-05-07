@@ -3919,6 +3919,7 @@
     }
 
     .ai-secret-field {
+      position:relative;
       display:flex;
       align-items:stretch;
       gap:8px;
@@ -3929,12 +3930,28 @@
     .ai-secret-field input {
       flex:1 1 auto;
       min-width:0;
+      padding-left:2.2rem;
+      padding-right:3rem;
+    }
+
+    .ai-secret-key-icon {
+      position:absolute;
+      left:12px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#97a8b7;
+      font-size:0.96rem;
+      pointer-events:none;
     }
 
     .ai-secret-toggle {
-      width:44px;
-      min-width:44px;
-      height:44px;
+      position:absolute;
+      right:8px;
+      top:50%;
+      transform:translateY(-50%);
+      width:30px;
+      min-width:30px;
+      height:30px;
       border-radius:12px;
       border:1px solid rgba(22,63,99,0.18);
       background:linear-gradient(180deg, rgba(248,250,252,1), rgba(236,241,246,1));
@@ -4066,11 +4083,16 @@
         grid-column:1 / -1;
       }
 
+      .ai-connection-controls {
+        grid-template-columns:1fr;
+      }
+
       .ai-connection-info {
         padding:12px 13px;
       }
 
-      .ai-connection-copy {
+      .ai-connection-copy,
+      .ai-connection-copy-singleline {
         white-space:normal;
       }
     }
@@ -12011,6 +12033,6 @@
     </footer>
   </div>
 
-  <script type="module" src="./js/app.r401.js?fresh=1197"></script>
+  <script type="module" src="./js/app.r401.js?fresh=1198"></script>
   </body>
 </html>

@@ -1,5 +1,5 @@
-import { createStore, cloneState } from "./state.r342.js?fresh=424";
-import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=931";
+import { createStore, cloneState } from "./state.r342.js?fresh=425";
+import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=932";
 
 const store = createStore(cloneState());
 if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -1134,7 +1134,8 @@ function renderAiSettingsPanel() {
   }
   if (disconnectButton) {
     disconnectButton.style.display = "flex";
-    disconnectButton.disabled = !aiSettings.connected;
+    const hasStoredKey = Boolean(String(aiSettings.apiKey || "").trim() || String(aiSettings.apiKeyPreview || "").trim() || aiSettings.connected || aiSettings.testing);
+    disconnectButton.disabled = !hasStoredKey;
   }
 }
 
@@ -1282,7 +1283,7 @@ function disconnectAiConnection() {
     connected: false,
     testing: false,
     lastDisconnectAt: new Date().toISOString(),
-    lastStatus: "Kein API-Schlüssel gespeichert."
+    lastStatus: "Verbindung getrennt. Schlüsselvorschau bleibt sichtbar."
   });
   persistAiSettings(aiSettings);
   resetAiApiKeyInput(aiSettings.apiKeyPreview || buildAiApiKeyPreview(currentApiKey));

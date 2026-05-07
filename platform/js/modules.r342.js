@@ -266,17 +266,21 @@ function renderAiChatThreadHtml(config = {}) {
     `;
   }
   return `
-    <details class="info-card ai-chat-panel ${escapeHtml(cardClass)}" open>
-      <summary class="ai-chat-panel-head">
-        <div class="ai-chat-panel-head-copy">
-          <div class="ai-chat-panel-title-row">
-            <h3>${escapeHtml(String(config.title || "Chat"))}</h3>
-            <span class="badge ai-chat-status ai-chat-status-${statusTone}">${escapeHtml(status)}</span>
+    <details class="info-card risk-register-card risk-fold-card ai-chat-panel ${escapeHtml(cardClass)}" open>
+      <summary class="risk-fold-summary ai-chat-panel-head">
+        <div class="risk-fold-summary-main ai-chat-panel-head-copy">
+          <div class="risk-fold-summary-topline ai-chat-panel-title-row">
+            <div class="risk-fold-summary-title">
+              <strong>${escapeHtml(String(config.title || "Chat"))}</strong>
+              <span>${escapeHtml(String(config.description || ""))}</span>
+            </div>
           </div>
-          <p class="form-note">${escapeHtml(String(config.description || ""))}</p>
+        </div>
+        <div class="risk-fold-summary-actions">
+          <span class="badge ai-chat-status ai-chat-status-${statusTone}">${escapeHtml(status)}</span>
         </div>
       </summary>
-      <div class="ai-chat-panel-body">
+      <div class="risk-fold-body ai-chat-panel-body">
         <section class="info-card ai-chat-card ${escapeHtml(cardClass)}">
           ${bodyHtml}
         </section>

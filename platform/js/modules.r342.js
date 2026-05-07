@@ -3229,7 +3229,10 @@ export const modules = {
                   <div class="action-file-grid">
                     <div class="form-field" style="grid-column:1/-1;">
                       <label for="aiApiKey">Anthropic API-Schlüssel</label>
-                      <input id="aiApiKey" data-ai-setting-field="apiKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" value="" placeholder="sk- ..." style="-webkit-text-security:disc;">
+                      <div class="ai-secret-field">
+                        <input id="aiApiKey" data-ai-setting-field="apiKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" value="" placeholder="sk- ...">
+                        <button class="ai-secret-toggle" id="aiApiKeyToggle" type="button" aria-label="Schlüssel anzeigen" aria-pressed="false" onclick="void globalThis.__riskToggleAiApiKeyVisibility?.()">👁</button>
+                      </div>
                     </div>
                   </div>
                   <div class="ai-connection-controls">

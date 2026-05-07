@@ -1,5 +1,5 @@
-import { createStore, cloneState } from "./state.r342.js?fresh=418";
-import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=925";
+import { createStore, cloneState } from "./state.r342.js?fresh=419";
+import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=926";
 
 const store = createStore(cloneState());
 if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -30,6 +30,7 @@ const RECENT_PROJECT_FILES_DB_STORE = "projectFiles";
 const AI_SETTINGS_KEY = "project_controls_hub_ai_settings_v1";
 const AI_CHAT_STATE_KEY = "project_controls_hub_ai_chats_v1";
 const DEFAULT_AI_PROXY_BASE_URL = "http://127.0.0.1:8171";
+let aiApiKeyVisible = false;
 const uiDrafts = globalThis.__riskRegisterUiDrafts || (globalThis.__riskRegisterUiDrafts = {});
 const aiChatDrafts = uiDrafts.aiChatDrafts || (uiDrafts.aiChatDrafts = {});
 let aiWorkshopFreeTextPersistTimer = null;
@@ -1076,6 +1077,7 @@ function setSecondaryPanelVisibility(panelId, visible) {
 function renderAiSettingsPanel() {
   const panel = document.getElementById("aiConnectionPanel");
   const apiKeyInput = document.getElementById("aiApiKey");
+  const apiKeyToggle = document.getElementById("aiApiKeyToggle");
   const budgetDisplay = document.getElementById("aiBudgetDisplay");
   const statusTarget = document.getElementById("aiStatus");
   const testButton = document.getElementById("testAiSettingsBtn");
@@ -1088,6 +1090,14 @@ function renderAiSettingsPanel() {
   }
   if (apiKeyInput && (!String(aiSettings.apiKey || "").trim() || document.activeElement !== apiKeyInput)) {
     apiKeyInput.value = aiSettings.apiKey || "";
+  }
+  if (apiKeyInput) {
+    apiKeyInput.type = aiApiKeyVisible ? "text" : "password";
+  }
+  if (apiKeyToggle) {
+    apiKeyToggle.textContent = aiApiKeyVisible ? "🙈" : "👁";
+    apiKeyToggle.setAttribute("aria-label", aiApiKeyVisible ? "Schlüssel verbergen" : "Schlüssel anzeigen");
+    apiKeyToggle.setAttribute("aria-pressed", String(aiApiKeyVisible));
   }
   if (budgetDisplay) {
     const budgetValue = Number(aiSettings.budgetEur) || 0;
@@ -3528,12 +3538,15 @@ globalThis.__riskSaveAiSettings = () => {
     lastStatus: aiSettings.lastStatus
   });
   nextAiSettings.lastSavedAt = new Date().toISOString();
-  nextAiSettings.lastStatus = "Einstellungen gespeichert. Verbindung wird geprüft ...";
+  nextAiSettings.lastStatus = "Einstellungen gespeichert.";
   applyAiSettings(nextAiSettings, nextAiSettings.lastStatus);
-  void startAiConnectionTest();
 };
 globalThis.__riskTestAiSettings = () => startAiConnectionTest();
 globalThis.__riskDisconnectAiConnection = () => disconnectAiConnection();
+globalThis.__riskToggleAiApiKeyVisibility = () => {
+  aiApiKeyVisible = !aiApiKeyVisible;
+  renderAiSettingsPanel();
+};
 globalThis.__riskBuildReportDraft = () => {
   const currentState = store.getState();
   const reportText = ensureRiskReportProjectLine(ensureRiskReportDraftHintSection(renderRiskReportText(currentState)), currentState?.project?.name);

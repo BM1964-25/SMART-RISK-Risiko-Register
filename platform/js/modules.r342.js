@@ -3322,7 +3322,7 @@ export const modules = {
                       <button class="action-btn danger" id="disconnectAiSettingsBtn" type="button" onclick="void globalThis.__riskDisconnectAiConnection?.()">Offline schalten</button>
                       <button class="action-btn danger" id="deleteAiSettingsBtn" type="button" onclick="void globalThis.__riskDeleteAiApiKey?.()">API-Schlüssel löschen</button>
                       <button class="storage-status storage-status-box ai-status-neutral" id="aiStatus" type="button" disabled style="grid-column:1 / -1;">Noch keine KI-Verbindung eingerichtet.</button>
-                      <p class="form-note ai-connection-help" style="grid-column:1 / -1; margin:0;">Offline schalten trennt nur die Verbindung. API-Schlüssel löschen entfernt den Schlüssel wirklich aus dem Browser.</p>
+                      <p class="form-note ai-connection-help" style="grid-column:1 / -1; margin:0;">Offline schalten trennt nur die Verbindung. Erneut prüfen nutzt den gespeicherten Schlüssel und testet die Verbindung nochmals. API-Schlüssel löschen entfernt den Schlüssel wirklich aus dem Browser.</p>
                     </div>
                   </div>
                   <div class="ai-connection-info">

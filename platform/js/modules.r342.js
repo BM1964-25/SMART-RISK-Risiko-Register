@@ -182,6 +182,8 @@ function renderAiChatBubbleHtml(message = {}) {
 
 function renderAiChatThreadHtml(config = {}) {
   const chatId = String(config.chatId || "fach");
+  const panelKey = String(config.panelKey || `${chatId}ChatPanel`);
+  const panelStyle = String(config.panelStyle || "").trim();
   const prompts = Array.isArray(config.prompts) ? config.prompts : [];
   const messages = Array.isArray(config.messages) ? config.messages : [];
   const cardClass = String(config.cardClass || "card-info").trim();
@@ -251,7 +253,7 @@ function renderAiChatThreadHtml(config = {}) {
   `;
   if (!collapsible) {
     return `
-      <section class="info-card ai-chat-card ${escapeHtml(cardClass)}">
+      <section class="info-card ai-chat-card ${escapeHtml(cardClass)}" style="${escapeHtml(panelStyle)}">
         <div class="ai-chat-top">
           <div class="ai-chat-head">
             <div class="ai-chat-head-copy">
@@ -266,11 +268,11 @@ function renderAiChatThreadHtml(config = {}) {
     `;
   }
   return `
-    <details class="info-card risk-register-card risk-fold-card ai-chat-panel ${escapeHtml(cardClass)}" open>
+    <details class="info-card risk-register-card risk-fold-card ai-chat-panel ${escapeHtml(cardClass)}" data-ai-panel-key="${escapeHtml(panelKey)}" style="${escapeHtml(panelStyle)}" open>
       <summary class="risk-fold-summary">
         <div class="risk-fold-summary-main">
           <div class="risk-fold-summary-topline">
-            <span class="risk-fold-drag-handle" aria-hidden="true" title="Tafel verschieben">
+            <span class="risk-fold-drag-handle" data-ai-panel-drag-handle aria-hidden="true" title="Tafel verschieben">
               <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                 <rect x="2" y="3.25" width="12" height="1.5" rx="0.75"></rect>
                 <rect x="2" y="7.25" width="12" height="1.5" rx="0.75"></rect>
@@ -3213,6 +3215,11 @@ export const modules = {
       const reportProfile = state.reportProfile || {};
       const aiChats = globalThis.__riskRegisterAiChats || {};
       const aiDrafts = globalThis.__riskRegisterUiDrafts?.aiChatDrafts || {};
+      const aiPanelOrder = Array.isArray(globalThis.__riskRegisterAiPanelOrder) && globalThis.__riskRegisterAiPanelOrder.length
+        ? globalThis.__riskRegisterAiPanelOrder
+        : ["aiConnectionPanel", "fachChatPanel", "hilfeChatPanel"];
+      const aiPanelRank = new Map(aiPanelOrder.map((key, index) => [key, index]));
+      const aiPanelOrderStyle = (key) => `order:${aiPanelRank.get(key) ?? 999};`;
       const fachChat = aiChats.fach || {};
       const hilfeChat = aiChats.hilfe || {};
       const auditMissing = typeof globalThis.__riskCollectProjectFileAudit === "function"
@@ -3251,11 +3258,11 @@ export const modules = {
             <span class="badge">KI-Dialog</span>
           </div>
           <div class="card-grid ai-hub-grid">
-            <details class="info-card card-info risk-register-card risk-fold-card ai-connection-panel" id="aiConnectionPanel" open style="grid-column:1 / -1;">
+            <details class="info-card card-info risk-register-card risk-fold-card ai-connection-panel" id="aiConnectionPanel" data-ai-panel-key="aiConnectionPanel" open style="grid-column:1 / -1; ${aiPanelOrderStyle("aiConnectionPanel")}">
               <summary class="risk-fold-summary">
                 <div class="risk-fold-summary-main">
                   <div class="risk-fold-summary-topline">
-                    <span class="risk-fold-drag-handle" aria-hidden="true" title="Tafel verschieben">
+                    <span class="risk-fold-drag-handle" data-ai-panel-drag-handle aria-hidden="true" title="Tafel verschieben">
                       <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                         <rect x="2" y="3.25" width="12" height="1.5" rx="0.75"></rect>
                         <rect x="2" y="7.25" width="12" height="1.5" rx="0.75"></rect>
@@ -3306,6 +3313,8 @@ export const modules = {
             </details>
             ${renderAiChatThreadHtml({
               chatId: "fach",
+              panelKey: "fachChatPanel",
+              panelStyle: aiPanelOrderStyle("fachChatPanel"),
               title: "Fach-Chat",
               description: "Frage zum Bauprojekt, Risiken, Maßnahmen, Bauphasen, Berichtsinhalten und Plausibilität.",
               context: fachContext,
@@ -3331,6 +3340,8 @@ export const modules = {
             })}
             ${renderAiChatThreadHtml({
               chatId: "hilfe",
+              panelKey: "hilfeChatPanel",
+              panelStyle: aiPanelOrderStyle("hilfeChatPanel"),
               title: "Hilfe-Chat",
               description: "Fragen zur Bedienung der Anwendung, zu Menüs, Feldern, Speichern, Laden und Exporten.",
               context: helpContext,

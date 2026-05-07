@@ -29,6 +29,8 @@ const RECENT_PROJECT_FILES_DB_NAME = "project_controls_hub_recent_project_files_
 const RECENT_PROJECT_FILES_DB_STORE = "projectFiles";
 const AI_SETTINGS_KEY = "project_controls_hub_ai_settings_v1";
 const AI_CHAT_STATE_KEY = "project_controls_hub_ai_chats_v1";
+const AI_PANEL_ORDER_KEY = "project_controls_hub_ai_panel_order_v1";
+const DEFAULT_AI_PANEL_ORDER = ["aiConnectionPanel", "fachChatPanel", "hilfeChatPanel"];
 const DEFAULT_AI_PROXY_BASE_URL = "http://127.0.0.1:8171";
 let aiApiKeyVisible = false;
 const uiDrafts = globalThis.__riskRegisterUiDrafts || (globalThis.__riskRegisterUiDrafts = {});
@@ -46,7 +48,18 @@ let suppressNextAutosave = 0;
 let aiSettings = loadAiSettings();
 let aiChats = loadAiChatsState();
 globalThis.__riskRegisterAiChats = aiChats;
+let aiPanelOrder = loadAiPanelOrder();
+globalThis.__riskRegisterAiPanelOrder = aiPanelOrder;
 let aiConnectionAbortController = null;
+let draggedAiPanelKey = null;
+let draggedAiPanelPointerId = null;
+let draggedAiPanelElement = null;
+let draggedAiPanelStartX = 0;
+let draggedAiPanelStartY = 0;
+let draggedAiPanelPreviewOrder = null;
+let draggedAiPanelPlaceholderElement = null;
+let draggedAiPanelOriginalHeight = "";
+let draggedAiPanelOriginalOverflow = "";
 let draggedRiskPanelKey = null;
 let draggedRiskPanelPointerId = null;
 let draggedRiskPanelElement = null;
@@ -559,6 +572,125 @@ function loadAiSettings() {
 function persistAiSettings(nextSettings) {
   aiSettings = normalizeAiSettings(nextSettings);
   return writeStorageValue(AI_SETTINGS_KEY, JSON.stringify(aiSettings));
+}
+
+function normalizeAiPanelOrder(panelOrder) {
+  if (!Array.isArray(panelOrder)) return [...DEFAULT_AI_PANEL_ORDER];
+  const normalizedIncoming = panelOrder.map((value) => String(value || "").trim()).filter(Boolean);
+  const seen = new Set();
+  const filtered = [];
+  for (const value of normalizedIncoming) {
+    if (!DEFAULT_AI_PANEL_ORDER.includes(value) || seen.has(value)) continue;
+    seen.add(value);
+    filtered.push(value);
+  }
+  const trailing = DEFAULT_AI_PANEL_ORDER.filter((value) => !seen.has(value));
+  return [...filtered, ...trailing];
+}
+
+function loadAiPanelOrder() {
+  const raw = readStorageValue(AI_PANEL_ORDER_KEY);
+  if (!raw) return [...DEFAULT_AI_PANEL_ORDER];
+  return normalizeAiPanelOrder(safeJsonParse(raw, []));
+}
+
+function persistAiPanelOrder(nextOrder) {
+  aiPanelOrder = normalizeAiPanelOrder(nextOrder);
+  globalThis.__riskRegisterAiPanelOrder = aiPanelOrder;
+  return writeStorageValue(AI_PANEL_ORDER_KEY, JSON.stringify(aiPanelOrder));
+}
+
+function moveAiPanelRelative(list, itemValue, targetValue, placeAfter = false) {
+  const items = Array.isArray(list) ? [...list] : [];
+  const fromIndex = items.indexOf(itemValue);
+  const targetIndex = items.indexOf(targetValue);
+  if (fromIndex < 0 || targetIndex < 0 || itemValue === targetValue) return items;
+  const [item] = items.splice(fromIndex, 1);
+  const nextTargetIndex = items.indexOf(targetValue);
+  const insertIndex = Math.max(0, placeAfter ? nextTargetIndex + 1 : nextTargetIndex);
+  items.splice(insertIndex, 0, item);
+  return items;
+}
+
+function sameAiPanelOrder(left, right) {
+  return Array.isArray(left) && Array.isArray(right)
+    && left.length === right.length
+    && left.every((value, index) => value === right[index]);
+}
+
+function applyAiPanelOrder(order) {
+  const panelOrder = normalizeAiPanelOrder(order);
+  const panelRank = new Map(panelOrder.map((key, index) => [key, index]));
+  const stack = document.querySelector(".ai-hub-grid");
+  const panels = [...document.querySelectorAll?.(".ai-hub-grid > [data-ai-panel-key], .ai-hub-grid > [data-ai-panel-placeholder]") || []]
+    .filter((panel) => panel instanceof HTMLElement);
+  panels.forEach((panel) => {
+    const key = panel.getAttribute("data-ai-panel-key");
+    panel.style.order = String(key ? (panelRank.get(key) ?? 999) : Number(panel.style.order || 999));
+  });
+  if (stack instanceof HTMLElement && panels.length) {
+    const orderedNodes = [...panels].sort((left, right) => {
+      const leftOrder = Number(left.style.order || 999);
+      const rightOrder = Number(right.style.order || 999);
+      if (leftOrder !== rightOrder) return leftOrder - rightOrder;
+      return 0;
+    });
+    orderedNodes.forEach((node) => stack.appendChild(node));
+  }
+}
+
+function clearAiDropIndicator() {
+  if (draggedAiPanelPlaceholderElement instanceof HTMLElement) {
+    draggedAiPanelPlaceholderElement.remove();
+  }
+  draggedAiPanelPlaceholderElement = null;
+}
+
+function restoreDraggedAiPanelStyles() {
+  if (!(draggedAiPanelElement instanceof HTMLElement)) return;
+  draggedAiPanelElement.style.pointerEvents = "";
+  draggedAiPanelElement.style.position = "";
+  draggedAiPanelElement.style.left = "";
+  draggedAiPanelElement.style.top = "";
+  draggedAiPanelElement.style.width = "";
+  draggedAiPanelElement.style.margin = "";
+  draggedAiPanelElement.style.zIndex = "";
+  draggedAiPanelElement.style.transform = "";
+  draggedAiPanelElement.style.height = draggedAiPanelOriginalHeight;
+  draggedAiPanelElement.style.overflow = draggedAiPanelOriginalOverflow;
+  draggedAiPanelElement.classList.remove("is-dragging");
+  draggedAiPanelOriginalHeight = "";
+  draggedAiPanelOriginalOverflow = "";
+}
+
+function setAiDropIndicator(_targetKey, _placeAfter, _pointerY = null) {
+  const draggedKey = draggedAiPanelKey;
+  const previewOrder = normalizeAiPanelOrder(draggedAiPanelPreviewOrder || aiPanelOrder);
+  const placeholderOrder = Math.max(0, previewOrder.indexOf(draggedKey));
+  const panel = draggedAiPanelElement;
+  if (!(panel instanceof HTMLElement)) return;
+  const stack = panel.closest?.(".ai-hub-grid");
+  if (!(stack instanceof HTMLElement)) return;
+  if (!(draggedAiPanelPlaceholderElement instanceof HTMLElement)) {
+    const placeholder = document.createElement("div");
+    placeholder.className = "risk-panel-placeholder";
+    placeholder.setAttribute("aria-hidden", "true");
+    placeholder.setAttribute("data-ai-panel-placeholder", "true");
+    stack.appendChild(placeholder);
+    draggedAiPanelPlaceholderElement = placeholder;
+  }
+  const rect = panel.getBoundingClientRect();
+  draggedAiPanelPlaceholderElement.style.height = `${Math.max(72, Math.round(rect.height))}px`;
+  draggedAiPanelPlaceholderElement.style.order = String(placeholderOrder);
+  draggedAiPanelPlaceholderElement.style.display = "block";
+}
+
+function getAiPanelsByPosition() {
+  return [...document.querySelectorAll?.(".ai-hub-grid > [data-ai-panel-key]") || []]
+    .filter((panel) => panel instanceof HTMLElement)
+    .map((panel) => ({ panel, rect: panel.getBoundingClientRect() }))
+    .filter(({ rect }) => rect && rect.width > 0 && rect.height > 0)
+    .sort((a, b) => a.rect.top - b.rect.top);
 }
 
 function normalizeAiChatId(chatId) {
@@ -4185,6 +4317,159 @@ function bindEvents() {
     draggedRiskPanelPreviewOrder = null;
   }, true);
 
+  document.addEventListener("pointerdown", (event) => {
+    const handle = event.target?.closest?.("[data-ai-panel-drag-handle]");
+    if (!handle || event.button !== 0) return;
+    const panel = handle.closest("[data-ai-panel-key]");
+    const panelKey = panel?.getAttribute("data-ai-panel-key");
+    if (!panelKey) return;
+    draggedAiPanelKey = panelKey;
+    draggedAiPanelPointerId = event.pointerId ?? null;
+    draggedAiPanelElement = panel;
+    draggedAiPanelStartX = event.clientX ?? 0;
+    draggedAiPanelStartY = event.clientY ?? 0;
+    draggedAiPanelPreviewOrder = normalizeAiPanelOrder(aiPanelOrder);
+    clearAiDropIndicator();
+    const rect = panel.getBoundingClientRect();
+    const summaryRect = panel.querySelector("summary")?.getBoundingClientRect?.();
+    draggedAiPanelOriginalHeight = panel.style.height || "";
+    draggedAiPanelOriginalOverflow = panel.style.overflow || "";
+    panel.style.pointerEvents = "none";
+    panel.style.position = "fixed";
+    panel.style.left = `${rect.left}px`;
+    panel.style.top = `${rect.top}px`;
+    panel.style.width = `${rect.width}px`;
+    panel.style.margin = "0";
+    panel.style.zIndex = "30";
+    panel.style.height = `${Math.max(56, Math.round(summaryRect?.height || rect.height))}px`;
+    panel.style.overflow = "hidden";
+    panel?.classList?.add?.("is-dragging");
+    document.body?.classList?.add?.("risk-panel-dragging");
+    if (typeof handle.setPointerCapture === "function" && draggedAiPanelPointerId !== null) {
+      try {
+        handle.setPointerCapture(draggedAiPanelPointerId);
+      } catch (_error) {
+        // Ignore pointer capture errors.
+      }
+    }
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+
+  document.addEventListener("pointermove", (event) => {
+    if (!draggedAiPanelElement) return;
+    if (draggedAiPanelPointerId !== null && event.pointerId !== draggedAiPanelPointerId) return;
+    const dx = (event.clientX ?? 0) - draggedAiPanelStartX;
+    const dy = (event.clientY ?? 0) - draggedAiPanelStartY;
+    draggedAiPanelElement.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+
+    const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+    let panel = targetElement?.closest?.("[data-ai-panel-key]");
+    const panelsByPosition = getAiPanelsByPosition();
+    if (!panel && panelsByPosition.length) {
+      const y = event.clientY ?? 0;
+      const first = panelsByPosition[0];
+      const last = panelsByPosition[panelsByPosition.length - 1];
+      if (y <= first.rect.top) {
+        panel = first.panel;
+      } else if (y >= last.rect.bottom) {
+        panel = last.panel;
+      } else {
+        panel = panelsByPosition.find(({ rect }) => y >= rect.top && y <= rect.bottom)?.panel
+          || panelsByPosition.reduce((closest, current) => {
+            if (!closest) return current;
+            const closestDistance = Math.abs(y - (closest.rect.top + closest.rect.height / 2));
+            const currentDistance = Math.abs(y - (current.rect.top + current.rect.height / 2));
+            return currentDistance < closestDistance ? current : closest;
+          }, null)?.panel || null;
+      }
+    }
+    if (!panel) return;
+    const targetKey = panel.getAttribute("data-ai-panel-key");
+    if (!targetKey || targetKey === draggedAiPanelKey) return;
+    const rect = panel.getBoundingClientRect();
+    const placeAfter = (event.clientY ?? 0) > rect.top + (rect.height / 2);
+    const nextOrder = moveAiPanelRelative(
+      draggedAiPanelPreviewOrder || normalizeAiPanelOrder(aiPanelOrder),
+      draggedAiPanelKey,
+      targetKey,
+      placeAfter
+    );
+    if (sameAiPanelOrder(nextOrder, draggedAiPanelPreviewOrder)) return;
+    draggedAiPanelPreviewOrder = nextOrder;
+    applyAiPanelOrder(nextOrder);
+    setAiDropIndicator(targetKey, placeAfter, event.clientY ?? null);
+  }, true);
+
+  document.addEventListener("pointerup", (event) => {
+    if (!draggedAiPanelKey) return;
+    const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+    let panel = targetElement?.closest?.("[data-ai-panel-key]");
+    const panelsByPosition = getAiPanelsByPosition();
+    if (!panel && panelsByPosition.length) {
+      const y = event.clientY ?? 0;
+      const first = panelsByPosition[0];
+      const last = panelsByPosition[panelsByPosition.length - 1];
+      if (y <= first.rect.top) {
+        panel = first.panel;
+      } else if (y >= last.rect.bottom) {
+        panel = last.panel;
+      } else {
+        panel = panelsByPosition.find(({ rect }) => y >= rect.top && y <= rect.bottom)?.panel
+          || panelsByPosition.reduce((closest, current) => {
+            if (!closest) return current;
+            const closestDistance = Math.abs(y - (closest.rect.top + closest.rect.height / 2));
+            const currentDistance = Math.abs(y - (current.rect.top + current.rect.height / 2));
+            return currentDistance < closestDistance ? current : closest;
+          }, null)?.panel || null;
+      }
+    }
+    if (!panel) {
+      restoreDraggedAiPanelStyles();
+      document.body?.classList?.remove?.("risk-panel-dragging");
+      clearAiDropIndicator();
+      draggedAiPanelKey = null;
+      draggedAiPanelPointerId = null;
+      draggedAiPanelElement = null;
+      return;
+    }
+    const targetKey = panel.getAttribute("data-ai-panel-key");
+    if (!targetKey || targetKey === draggedAiPanelKey) {
+      restoreDraggedAiPanelStyles();
+      document.body?.classList?.remove?.("risk-panel-dragging");
+      clearAiDropIndicator();
+      draggedAiPanelKey = null;
+      draggedAiPanelPointerId = null;
+      draggedAiPanelElement = null;
+      return;
+    }
+    const rect = panel.getBoundingClientRect();
+    const placeAfter = event.clientY > rect.top + (rect.height / 2);
+    const nextOrder = draggedAiPanelPreviewOrder
+      ? draggedAiPanelPreviewOrder
+      : moveAiPanelRelative(normalizeAiPanelOrder(aiPanelOrder), draggedAiPanelKey, targetKey, placeAfter);
+    persistAiPanelOrder(nextOrder);
+    applyAiPanelOrder(nextOrder);
+    setAiDropIndicator(targetKey, placeAfter, event.clientY ?? null);
+    restoreDraggedAiPanelStyles();
+    document.body?.classList?.remove?.("risk-panel-dragging");
+    clearAiDropIndicator();
+    draggedAiPanelKey = null;
+    draggedAiPanelPointerId = null;
+    draggedAiPanelElement = null;
+    draggedAiPanelPreviewOrder = null;
+  }, true);
+
+  document.addEventListener("pointercancel", () => {
+    restoreDraggedAiPanelStyles();
+    document.body?.classList?.remove?.("risk-panel-dragging");
+    clearAiDropIndicator();
+    draggedAiPanelKey = null;
+    draggedAiPanelPointerId = null;
+    draggedAiPanelElement = null;
+    draggedAiPanelPreviewOrder = null;
+  }, true);
+
   document.addEventListener("toggle", (event) => {
     const details = event.target;
     if (!(details instanceof HTMLElement)) return;
@@ -4237,7 +4522,7 @@ function bindEvents() {
   }, true);
 
   document.addEventListener("click", (event) => {
-    const summaryActionTarget = event.target.closest?.(".risk-fold-summary [data-action], .risk-fold-summary button, .risk-fold-summary a, .risk-fold-summary input, .risk-fold-summary select, .risk-fold-summary textarea, .risk-fold-summary [data-risk-panel-drag-handle]");
+    const summaryActionTarget = event.target.closest?.(".risk-fold-summary [data-action], .risk-fold-summary button, .risk-fold-summary a, .risk-fold-summary input, .risk-fold-summary select, .risk-fold-summary textarea, .risk-fold-summary [data-risk-panel-drag-handle], .risk-fold-summary [data-ai-panel-drag-handle]");
     if (summaryActionTarget) {
       event.preventDefault();
     }
@@ -4298,7 +4583,7 @@ function bindEvents() {
       }
     }
 
-    const dragHandle = event.target.closest?.("[data-risk-panel-drag-handle]");
+    const dragHandle = event.target.closest?.("[data-risk-panel-drag-handle], [data-ai-panel-drag-handle]");
     if (dragHandle) {
       event.preventDefault();
       event.stopPropagation();

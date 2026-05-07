@@ -3241,7 +3241,7 @@ export const modules = {
                 </div>
                 <div class="ai-connection-info">
                   <strong>API-Schlüssel &amp; Kosten</strong>
-                  <p class="ai-connection-copy-singleline">Für diese App brauchst du keinen Claude-Free-Account. Es genügt ein Anthropic-API-Schlüssel aus der Console.</p>
+                  <p class="ai-connection-copy-singleline">Kein Claude-Free-Account nötig: Es genügt ein Anthropic-API-Schlüssel aus der Console.</p>
                   <div class="ai-connection-links">
                     <a class="action-btn" href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic Console öffnen</a>
                   </div>

@@ -1,5 +1,5 @@
-import { createStore, cloneState } from "./state.r342.js?fresh=419";
-import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=926";
+import { createStore, cloneState } from "./state.r342.js?fresh=420";
+import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=927";
 
 const store = createStore(cloneState());
 if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -1060,7 +1060,7 @@ function getAiStatusLabel(settings = aiSettings) {
   if (settings.connected) return "Verbindung OK";
   if (settings.lastStatus && settings.lastStatus !== getDefaultAiSettings().lastStatus) return settings.lastStatus;
   if (!hasKey) return "Kein API-Schlüssel gespeichert.";
-  return "API-Schlüssel bereit zum Speichern.";
+  return "Bereit zur Prüfung.";
 }
 
 function setSecondaryPanelVisibility(panelId, visible) {
@@ -1230,7 +1230,7 @@ async function startAiConnectionTest() {
     const message = error?.name === "AbortError"
       ? "KI-Verbindung hat zu lange gedauert."
       : errorMessage.includes("fetch")
-        ? "Lokaler KI-Proxy nicht erreichbar. Bitte ai-proxy-server.js starten."
+        ? "KI-Verbindung nicht erreichbar."
         : /API key missing/i.test(errorMessage)
           ? "Bitte zuerst einen API-Schlüssel eingeben."
           : /401|403/i.test(errorMessage) || /invalid|unauthorized/i.test(errorMessage)
@@ -3538,8 +3538,9 @@ globalThis.__riskSaveAiSettings = () => {
     lastStatus: aiSettings.lastStatus
   });
   nextAiSettings.lastSavedAt = new Date().toISOString();
-  nextAiSettings.lastStatus = "Einstellungen gespeichert.";
+  nextAiSettings.lastStatus = "Einstellungen gespeichert. Verbindung wird geprüft ...";
   applyAiSettings(nextAiSettings, nextAiSettings.lastStatus);
+  void startAiConnectionTest();
 };
 globalThis.__riskTestAiSettings = () => startAiConnectionTest();
 globalThis.__riskDisconnectAiConnection = () => disconnectAiConnection();

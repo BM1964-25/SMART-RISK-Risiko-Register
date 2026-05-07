@@ -3637,6 +3637,7 @@ function jumpToReportExportSection() {
 
 function exportSelectedReportByFormat(state) {
   try {
+    updateStorageStatus("Berichtsexport wird vorbereitet ...");
     const reportState = mergeRiskReportDraftIntoState(mergeAiWorkshopFreeTextDraftIntoState(state));
     const reportTitle = getActiveReportTitle(reportState);
     const selection = getReportExportSelection(state);
@@ -4018,7 +4019,7 @@ function renderApp(state) {
 
 function bindReportExportButton() {
   const button = document.getElementById("reportExportButton");
-  if (!button || button.dataset.boundExportHandler === "1" || button.tagName !== "BUTTON" || button.hasAttribute("onclick")) return;
+  if (!button || button.dataset.boundExportHandler === "1" || button.tagName !== "BUTTON" || button.getAttribute("data-action") === "export-selected-report") return;
   button.dataset.boundExportHandler = "1";
   button.addEventListener("click", () => {
     void exportSelectedReportByFormat(store.getState());

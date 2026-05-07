@@ -3077,23 +3077,23 @@ export const modules = {
               <div class="report-process-grid">
                 <div class="report-process-step">
                   <span class="report-process-step-number">1</span>
-                  <span class="report-process-step-text">Berichts-Entwurf aus den aktuellen Daten erzeugen. Dadurch wird ein erster Entwurf auf Basis der aktuellen Projektdaten erstellt.</span>
+                  <span class="report-process-step-text"><strong>Berichts-Entwurf</strong> aus den aktuellen Daten erzeugen. Dadurch wird ein erster <strong>Entwurf</strong> auf Basis der aktuellen Projektdaten erstellt.</span>
                 </div>
                 <div class="report-process-step optional">
                   <span class="report-process-step-number">2</span>
-                  <span class="report-process-step-text"><span class="report-process-step-flag">Optional</span> Bericht mit KI überarbeiten. Die KI verdichtet und formuliert den Entwurf sprachlich und fachlich weiter.</span>
+                  <span class="report-process-step-text"><span class="report-process-step-flag">Optional</span> Bericht mit <strong>KI</strong> überarbeiten. Die KI verdichtet und formuliert den <strong>Entwurf</strong> sprachlich und fachlich weiter.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">3</span>
-                  <span class="report-process-step-text">Entwurf prüfen oder KI-Vorschlag übernehmen. Der Vorschlag kann als neuer Entwurfsstand übernommen oder verworfen werden.</span>
+                  <span class="report-process-step-text"><strong>Entwurf</strong> prüfen oder <strong>KI-Vorschlag</strong> übernehmen. Der Vorschlag kann als neuer <strong>Entwurfsstand</strong> übernommen oder verworfen werden.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">4</span>
-                  <span class="report-process-step-text">Exportbereich öffnen und Bericht exportieren. Der aktuelle Entwurfsstand wird dort als Datei ausgegeben.</span>
+                  <span class="report-process-step-text"><strong>Exportbereich</strong> öffnen und <strong>Bericht exportieren</strong>. Der aktuelle <strong>Entwurfsstand</strong> wird dort als Datei ausgegeben.</span>
                 </div>
                 <div class="report-process-note-tile">
                   <span class="report-process-note-badge" aria-hidden="true">!</span>
-                  <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand. Die KI ist optional.</span>
+                  <span class="report-process-note-text">Beim Export gilt stets der aktuelle <strong>Entwurfsstand</strong>. Die <strong>KI</strong> ist optional.</span>
                 </div>
               </div>
             </div>

@@ -2302,8 +2302,6 @@ export const modules = {
                         `).join("")}
                       </select>
                     </div>
-                    <div class="form-note" style="grid-column:1 / -1; margin:-4px 0 2px;">
-                    </div>
                     <div class="form-field">
                       <label for="risk_due_${riskIndex}">Fällig am</label>
                       <input id="risk_due_${riskIndex}" data-risk-index="${riskIndex}" data-risk-field="dueDate" type="date" value="${risk.dueDate}">

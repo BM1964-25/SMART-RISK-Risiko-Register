@@ -3239,6 +3239,21 @@ export const modules = {
                     <button class="storage-status storage-status-box ai-status-neutral" id="aiStatus" type="button" disabled style="grid-column:1 / -1;">Noch keine KI-Verbindung eingerichtet.</button>
                   </div>
                 </div>
+                <div class="ai-connection-info">
+                  <strong>API-Guthaben</strong>
+                  <p>Hier kannst du das individuelle Startbudget des Kunden eintragen und im Blick behalten.</p>
+                  <div class="ai-connection-links">
+                    <a class="action-btn" href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic Console öffnen</a>
+                  </div>
+                  <div class="form-field" style="margin-top:2px;">
+                    <label for="aiBudgetEur">API-Guthaben / Startbudget (€)</label>
+                    <input id="aiBudgetEur" data-ai-setting-field="budgetEur" type="number" inputmode="decimal" min="0" step="1" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" value="10" placeholder="10">
+                  </div>
+                  <div class="form-note" style="margin-top:2px;padding:10px 12px;border:1px solid rgba(22,63,99,0.14);border-radius:12px;background:#f7fbfe;">
+                    <div>Aktuelles Guthaben: <strong id="aiBudgetDisplay">10 €</strong></div>
+                    <div>Verfügbar geschätzt: <strong id="aiBudgetRemainingDisplay">10 €</strong></div>
+                  </div>
+                </div>
               </div>
             </section>
             ${renderAiChatThreadHtml({

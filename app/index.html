@@ -3826,7 +3826,7 @@
 
     .ai-connection-layout {
       display:grid;
-      grid-template-columns:1fr;
+      grid-template-columns:repeat(12, minmax(0, 1fr));
       gap:18px;
       align-items:start;
     }
@@ -3835,9 +3835,38 @@
       display:grid;
       gap:10px;
       min-width:0;
-      grid-column:1 / -1;
+      grid-column:1 / span 6;
       width:100%;
       box-sizing:border-box;
+    }
+
+    .ai-connection-info {
+      display:grid;
+      gap:10px;
+      align-content:start;
+      min-width:0;
+      grid-column:7 / span 6;
+      width:100%;
+      box-sizing:border-box;
+      padding:14px 15px;
+      border:1px solid rgba(156,173,192,0.44);
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(250,252,254,1), rgba(242,247,251,1));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.82);
+    }
+
+    .ai-connection-info strong {
+      color:var(--muted);
+      font-size:0.78rem;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .ai-connection-info p {
+      margin:0;
+      color:var(--muted);
+      font-size:0.82rem;
+      line-height:1.5;
     }
 
     .ai-connection-controls {
@@ -3956,6 +3985,15 @@
     @media (max-width: 1180px) {
       .ai-connection-layout {
         grid-template-columns:1fr;
+      }
+
+      .ai-connection-main,
+      .ai-connection-info {
+        grid-column:1 / -1;
+      }
+
+      .ai-connection-info {
+        padding:12px 13px;
       }
 
       .ai-connection-copy {
@@ -11899,6 +11937,6 @@
     </footer>
   </div>
 
-  <script type="module" src="./js/app.r401.js?fresh=1187"></script>
+  <script type="module" src="./js/app.r401.js?fresh=1188"></script>
   </body>
 </html>

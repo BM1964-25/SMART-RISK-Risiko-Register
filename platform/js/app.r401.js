@@ -1,5 +1,5 @@
-import { createStore, cloneState } from "./state.r342.js?fresh=420";
-import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=927";
+import { createStore, cloneState } from "./state.r342.js?fresh=421";
+import { modules, riskCategoryOptions, normalizeRiskCategoryValue, normalizeRiskStatusValue, normalizeRiskRegisterPanelOpenStates, normalizeRiskRegisterPanelOrder, deriveRiskLikelihoodFromPercent, buildManagementReportData, buildSelectedReportData, renderRiskReportText } from "./modules.r342.js?fresh=928";
 
 const store = createStore(cloneState());
 if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -1138,7 +1138,7 @@ function renderAiSettingsPanel() {
   }
 }
 
-function resetAiApiKeyInput() {
+function resetAiApiKeyInput(placeholderPreview = "") {
   const apiKeyInput = document.getElementById("aiApiKey");
   if (!apiKeyInput) return;
   const freshInput = apiKeyInput.cloneNode(true);
@@ -1146,6 +1146,8 @@ function resetAiApiKeyInput() {
   freshInput.defaultValue = "";
   freshInput.setAttribute("value", "");
   freshInput.setAttribute("autocomplete", "new-password");
+  freshInput.type = "password";
+  freshInput.placeholder = String(placeholderPreview || "").trim() || "sk- ...";
   apiKeyInput.replaceWith(freshInput);
 }
 
@@ -1243,14 +1245,14 @@ async function startAiConnectionTest() {
     const message = error?.name === "AbortError"
       ? "KI-Verbindung hat zu lange gedauert."
       : errorMessage.includes("fetch")
-        ? "KI-Verbindung nicht erreichbar."
+        ? "KI-Verbindung nicht erreichbar. Schlüssel gespeichert."
         : /API key missing/i.test(errorMessage)
           ? "Bitte zuerst einen API-Schlüssel eingeben."
           : /401|403/i.test(errorMessage) || /invalid|unauthorized/i.test(errorMessage)
             ? "API-Schlüssel ungültig oder nicht freigeschaltet."
-            : /Provider responded with HTTP/i.test(errorMessage)
-              ? "Provider hat die Verbindung abgelehnt."
-              : "KI-Verbindung fehlgeschlagen. Bitte API-Schlüssel oder Provider prüfen.";
+          : /Provider responded with HTTP/i.test(errorMessage)
+              ? "Provider hat die Verbindung abgelehnt. Schlüssel gespeichert."
+              : "KI-Verbindung fehlgeschlagen. Schlüssel gespeichert.";
     aiSettings = normalizeAiSettings({
       ...snapshot,
       testing: false,
@@ -1271,6 +1273,7 @@ function disconnectAiConnection() {
     aiConnectionAbortController.abort();
     aiConnectionAbortController = null;
   }
+  aiApiKeyVisible = false;
   const currentApiKey = String(document.getElementById("aiApiKey")?.value || aiSettings.apiKey || "");
   aiSettings = normalizeAiSettings({
     ...readAiSettingsFromPanel(),
@@ -1282,7 +1285,7 @@ function disconnectAiConnection() {
     lastStatus: "Kein API-Schlüssel gespeichert."
   });
   persistAiSettings(aiSettings);
-  resetAiApiKeyInput();
+  resetAiApiKeyInput(aiSettings.apiKeyPreview || buildAiApiKeyPreview(currentApiKey));
   renderAiSettingsPanel();
   updateAiStatus(aiSettings.lastStatus);
   document.getElementById("aiApiKey")?.blur();

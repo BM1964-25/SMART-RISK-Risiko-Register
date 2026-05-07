@@ -3097,19 +3097,19 @@ export const modules = {
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">6</span>
-                  <span class="report-process-step-text">Den Bericht in der Vorschau abschließend prüfen.</span>
+                  <span class="report-process-step-text">Optional: Den Bericht mit KI überarbeiten.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">7</span>
-                  <span class="report-process-step-text">Dateinamen und Format prüfen.</span>
+                  <span class="report-process-step-text">Oder den Entwurf direkt exportieren.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">8</span>
-                  <span class="report-process-step-text">Wenn der Bericht stimmig ist, den Risikobericht exportieren.</span>
+                  <span class="report-process-step-text">Wenn die KI genutzt wurde, den Vorschlag übernehmen und dann exportieren.</span>
                 </div>
                 <div class="report-process-note-tile">
                   <span class="report-process-note-badge" aria-hidden="true">!</span>
-                  <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand.</span>
+                  <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand. Die KI ist optional.</span>
                 </div>
               </div>
             </div>

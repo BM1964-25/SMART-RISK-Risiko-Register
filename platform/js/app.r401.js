@@ -105,7 +105,7 @@ function suppressRiskPanelClose(panelKey, durationMs = 1500) {
 function setRiskRegisterChartSort(sortBy, event) {
   event?.preventDefault?.();
   event?.stopPropagation?.();
-  const normalizedSortBy = sortBy === "value" ? "value" : "priority";
+  const normalizedSortBy = ["priority", "value", "id", "category", "dueDate", "owner"].includes(sortBy) ? sortBy : "priority";
   store.setState((state) => ({
     ...state,
     ui: {
@@ -5114,7 +5114,7 @@ function bindEvents() {
     }
 
     if (actionTarget?.dataset.action === "set-risk-register-sort" || actionTarget?.dataset.action === "set-risk-register-chart-sort") {
-      const sortBy = ["priority", "value", "id", "category", "dueDate"].includes(actionTarget.dataset.sortBy)
+      const sortBy = ["priority", "value", "id", "category", "dueDate", "owner"].includes(actionTarget.dataset.sortBy)
         ? actionTarget.dataset.sortBy
         : "priority";
       event.preventDefault();

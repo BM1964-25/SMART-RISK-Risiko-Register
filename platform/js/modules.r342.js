@@ -1919,7 +1919,7 @@ export const modules = {
         dueDate: 118,
         measures: 238
       };
-      const sortBy = ["priority", "value", "id", "dueDate", "category"].includes(riskView.sortBy) ? riskView.sortBy : "priority";
+      const sortBy = ["priority", "value", "id", "dueDate", "category", "owner"].includes(riskView.sortBy) ? riskView.sortBy : "priority";
       const matrixCounts = Array.from({ length: 5 }, () => Array(5).fill(0));
       const hasRiskFilters = Boolean(
         String(riskView.search || "").trim() ||
@@ -1966,6 +1966,9 @@ export const modules = {
         }
         if (sortBy === "category") {
           return String(a.category || "").localeCompare(String(b.category || ""), "de") || b.qualitativeRiskValue - a.qualitativeRiskValue;
+        }
+        if (sortBy === "owner") {
+          return String(a.owner || "nicht zugewiesen").localeCompare(String(b.owner || "nicht zugewiesen"), "de") || b.qualitativeRiskValue - a.qualitativeRiskValue;
         }
         if (sortBy === "dueDate") {
           const aDueTs = parseRiskDateValue(a.dueDate);
@@ -2412,6 +2415,7 @@ export const modules = {
                         <option value="value" ${sortBy === "value" ? "selected" : ""}>Risikowert</option>
                         <option value="id" ${sortBy === "id" ? "selected" : ""}>Risiko-ID</option>
                         <option value="category" ${sortBy === "category" ? "selected" : ""}>Kategorie</option>
+                        <option value="owner" ${sortBy === "owner" ? "selected" : ""}>Verantwortlichkeit</option>
                         <option value="dueDate" ${sortBy === "dueDate" ? "selected" : ""}>Ziel-Termin</option>
                       </select>
                     </div>

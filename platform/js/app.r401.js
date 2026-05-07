@@ -32,6 +32,21 @@ const AI_CHAT_STATE_KEY = "project_controls_hub_ai_chats_v1";
 const AI_PANEL_ORDER_KEY = "project_controls_hub_ai_panel_order_v1";
 const DEFAULT_AI_PANEL_ORDER = ["aiConnectionPanel", "fachChatPanel", "hilfeChatPanel"];
 const DEFAULT_AI_PROXY_BASE_URL = "http://127.0.0.1:8171";
+const REPORT_WORKSHOP_REQUIRED_SECTIONS = Object.freeze([
+  "Executive Summary",
+  "Lagebild",
+  "Risikoregister im Fokus",
+  "Kritische Risiken in Bearbeitung",
+  "Kritische offene Risiken",
+  "Erhöhte offene Risiken",
+  "Überfällige Risiken",
+  "Priorisierte Risiken",
+  "Maßnahmen",
+  "Restgefahr",
+  "Steuerungsprioritäten",
+  "Nächste Schritte",
+  "Hinweise"
+]);
 let aiApiKeyVisible = false;
 const uiDrafts = globalThis.__riskRegisterUiDrafts || (globalThis.__riskRegisterUiDrafts = {});
 const aiChatDrafts = uiDrafts.aiChatDrafts || (uiDrafts.aiChatDrafts = {});
@@ -143,6 +158,10 @@ function safeJsonParse(raw, fallback = null) {
   } catch (_error) {
     return fallback;
   }
+}
+
+function escapeRegExp(value) {
+  return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function readStorageValue(key) {
@@ -826,6 +845,29 @@ function normalizeAiWorkshopState(workshop = {}) {
     resultTone: ["neutral", "success", "danger"].includes(workshop.resultTone) ? workshop.resultTone : "neutral",
     resultData: workshop.resultData && typeof workshop.resultData === "object" ? workshop.resultData : null
   };
+}
+
+function findMissingReportWorkshopSections(text) {
+  const normalizedLines = String(text || "")
+    .replace(/\r\n/g, "\n")
+    .split("\n")
+    .map((line) => String(line || "").replace(/\*\*/g, "").replace(/^\s*#+\s*/, "").trim())
+    .filter(Boolean);
+  const hasSection = (title) => {
+    const titlePattern = escapeRegExp(title);
+    return normalizedLines.some((line) => {
+      const cleaned = line.replace(/^\s*\d+\.\s*/, "").trim();
+      return new RegExp(`^${titlePattern}$`, "i").test(cleaned) || new RegExp(`^${titlePattern}\\s*[:\\-–].*$`, "i").test(cleaned);
+    });
+  };
+  return REPORT_WORKSHOP_REQUIRED_SECTIONS.filter((title) => !hasSection(title));
+}
+
+function buildReportWorkshopQualityNote(missingSections) {
+  if (!Array.isArray(missingSections) || !missingSections.length) {
+    return "Qualitätsprüfung: Alle Pflichtkapitel sind vorhanden.";
+  }
+  return `Qualitätsprüfung: Pflichtkapitel fehlen: ${missingSections.join(", ")}.`;
 }
 
 function getRiskReportDraftText(state) {
@@ -2253,6 +2295,16 @@ async function runAiWorkshopTask(task) {
       ),
       currentState.ui?.aiWorkshop?.selectedRiskId || ""
     );
+    const reportWorkshopText = task === "risk-report"
+      ? ensureRiskReportProjectLine(
+          ensureRiskReportDraftHintSection(String(payload.text || "").trim() || "Die KI hat keine verwertbare Ausgabe zurückgegeben."),
+          currentState?.project?.name
+        )
+      : String(payload.text || "").trim() || "Die KI hat keine verwertbare Ausgabe zurückgegeben.";
+    const missingReportSections = task === "risk-report"
+      ? findMissingReportWorkshopSections(reportWorkshopText)
+      : [];
+    const reportWorkshopTone = task === "risk-report" && missingReportSections.length ? "danger" : "success";
     setAiWorkshopState({
       ...currentState.ui?.aiWorkshop,
       activeTask: task,
@@ -2260,18 +2312,22 @@ async function runAiWorkshopTask(task) {
       busy: false,
       progressPercent: 100,
       resultTitle: {
-        "risk-report": "Berichtsvorschlag erzeugt",
+        "risk-report": missingReportSections.length ? "Berichtsvorschlag erzeugt · Prüfung unvollständig" : "Berichtsvorschlag erzeugt",
         "free-text-risks": "Freitext ausgewertet",
         "measures-residual": "Maßnahmen und Rest-Risiko erzeugt"
       }[task] || "KI-Ergebnis",
       resultText: task === "risk-report"
-        ? ensureRiskReportProjectLine(
-            ensureRiskReportDraftHintSection(String(payload.text || "").trim() || "Die KI hat keine verwertbare Ausgabe zurückgegeben."),
-            currentState?.project?.name
-          )
+        ? `${reportWorkshopText}\n\n${buildReportWorkshopQualityNote(missingReportSections)}`
         : String(payload.text || "").trim() || "Die KI hat keine verwertbare Ausgabe zurückgegeben.",
-      resultTone: "success",
-      resultData: parsedResult
+      resultTone: task === "risk-report" ? reportWorkshopTone : "success",
+      resultData: task === "risk-report"
+        ? {
+            reportQualityCheck: {
+              ok: missingReportSections.length === 0,
+              missingSections: missingReportSections
+            }
+          }
+        : parsedResult
     });
   } catch (error) {
     stopAiWorkshopProgressTimer();

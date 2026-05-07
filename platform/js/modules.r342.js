@@ -3077,40 +3077,24 @@ export const modules = {
               <div class="report-process-grid">
                 <div class="report-process-step">
                   <span class="report-process-step-number">1</span>
-                  <span class="report-process-step-text">Projektdaten und Risikodaten prüfen.</span>
+                  <span class="report-process-step-text">Entwurf aus den aktuellen Daten erzeugen.</span>
                 </div>
-                <div class="report-process-step">
+                <div class="report-process-step optional">
                   <span class="report-process-step-number">2</span>
-                  <span class="report-process-step-text">Bericht aus den aktuellen Daten erzeugen.</span>
+                  <span class="report-process-step-text"><span class="report-process-step-flag">Optional</span> Mit KI überarbeiten.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">3</span>
-                  <span class="report-process-step-text">Den Bericht bei Bedarf mit KI weiter ausarbeiten.</span>
+                  <span class="report-process-step-text">Entwurf prüfen oder KI-Vorschlag übernehmen.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">4</span>
-                  <span class="report-process-step-text">KI-Vorschlag prüfen und wieder in den Bericht übernehmen.</span>
+                  <span class="report-process-step-text">Exportbereich öffnen und Bericht exportieren.</span>
                 </div>
-                <div class="report-process-step">
-                  <span class="report-process-step-number">5</span>
-                  <span class="report-process-step-text">Den Bericht bei Bedarf manuell formatieren.</span>
-                </div>
-                <div class="report-process-step">
-                  <span class="report-process-step-number">6</span>
-                  <span class="report-process-step-text">Optional: Den Bericht mit KI überarbeiten.</span>
-                </div>
-                <div class="report-process-step">
-                  <span class="report-process-step-number">7</span>
-                  <span class="report-process-step-text">Oder den Entwurf direkt exportieren.</span>
-                </div>
-                <div class="report-process-step">
-                  <span class="report-process-step-number">8</span>
-                  <span class="report-process-step-text">Wenn die KI genutzt wurde, den Vorschlag übernehmen und dann exportieren.</span>
-                </div>
-                <div class="report-process-note-tile">
-                  <span class="report-process-note-badge" aria-hidden="true">!</span>
-                  <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand. Die KI ist optional.</span>
-                </div>
+              </div>
+              <div class="report-process-note-tile">
+                <span class="report-process-note-badge" aria-hidden="true">!</span>
+                <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand. Die KI ist optional.</span>
               </div>
             </div>
             <div class="ai-workshop-grid report-workshop-actions report-workshop-actions-inline" style="margin-bottom:10px;">

@@ -4008,7 +4008,7 @@ function renderApp(state) {
 
 function bindReportExportButton() {
   const button = document.getElementById("reportExportButton");
-  if (!button || button.dataset.boundExportHandler === "1" || button.tagName !== "BUTTON") return;
+  if (!button || button.dataset.boundExportHandler === "1" || button.tagName !== "BUTTON" || button.hasAttribute("onclick")) return;
   button.dataset.boundExportHandler = "1";
   button.addEventListener("click", () => {
     void exportSelectedReportByFormat(store.getState());

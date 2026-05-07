@@ -3195,7 +3195,7 @@ export const modules = {
                   </div>
                   <p class="form-note">Alle Berichtsexporte werden im Downloads-Ordner gespeichert.</p>
                   <div class="report-output-actions">
-                    <button class="action-btn primary" id="reportExportButton" type="button" data-report-export-format="${escapeHtml(reportExportFormat)}">${reportExportFormat === "pdf" ? reportOutputPdfButtonLabel : reportOutputButtonLabel}</button>
+                    <button class="action-btn primary" id="reportExportButton" type="button" data-report-export-format="${escapeHtml(reportExportFormat)}" onclick="void globalThis.__riskExportSelectedReport?.()">${reportExportFormat === "pdf" ? reportOutputPdfButtonLabel : reportOutputButtonLabel}</button>
                   </div>
                 </div>
               </div>

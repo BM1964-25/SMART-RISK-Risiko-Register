@@ -85,7 +85,9 @@ assertExists(iconPath, "app/assets/risk-register-icon.png");
 const indexHtml = readText(indexPath);
 assertIncludes(indexHtml, "<title>SMART RISK Risiko-Register</title>", "app/index.html");
 assertIncludes(indexHtml, 'src="./assets/risk-register-icon.png"', "app/index.html");
-assertIncludes(indexHtml, 'src="./js/app.r401.js?fresh=1183"', "app/index.html");
+if (!/src="\.\/js\/app\.r401\.js\?fresh=\d+"/.test(indexHtml)) {
+  fail('Erwarteter Script-Import fehlt in app/index.html: src="./js/app.r401.js?fresh=<nummer>"');
+}
 
 checkPngSignature(iconPath);
 checkLocalReferences(indexHtml, appDir);

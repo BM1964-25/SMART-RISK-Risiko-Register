@@ -1335,7 +1335,7 @@
       grid-template-columns:repeat(2, minmax(0, 1fr));
     }
 
-    @media (max-width: 1080px) {
+    @media (max-width: 1180px) {
       .ai-hub-grid {
         grid-template-columns:1fr;
       }
@@ -3811,9 +3811,9 @@
     }
 
     .ai-connection-copy {
-      white-space:nowrap;
-      line-height:1.25;
-      max-width:none;
+      white-space:normal;
+      line-height:1.35;
+      max-width:34rem;
     }
 
     .ai-connection-badge {
@@ -4017,6 +4017,25 @@
       max-height:33px;
     }
 
+    @media (max-width: 1180px) {
+      .ai-connection-layout {
+        grid-template-columns:1fr;
+      }
+
+      .ai-connection-main,
+      .ai-connection-info {
+        grid-column:1 / -1;
+      }
+
+      .ai-connection-info {
+        padding:12px 13px;
+      }
+
+      .ai-connection-copy {
+        white-space:normal;
+      }
+    }
+
     @media (max-width: 900px) {
       .ai-connection-layout {
         grid-template-columns:1fr;
@@ -4029,7 +4048,7 @@
       }
     }
 
-    @media (max-width: 1300px) {
+    @media (min-width: 1181px) and (max-width: 1300px) {
       .ai-connection-layout {
         grid-template-columns:repeat(12, minmax(0, 1fr));
       }

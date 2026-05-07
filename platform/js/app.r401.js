@@ -339,6 +339,10 @@ function buildAiApiKeyPreview(value) {
   return `${key.slice(0, 13)}...`;
 }
 
+function getAiApiKeyPlaceholder(preview = "") {
+  return String(preview || "").trim() || "sk-ant-api03-...";
+}
+
 
 function jumpToReportTarget(moduleKey, targetId) {
   if (!moduleKey || !targetId) return;
@@ -1327,7 +1331,7 @@ function renderAiSettingsPanel() {
     if (document.activeElement !== apiKeyInput) {
       apiKeyInput.value = aiApiKeyVisible && hasApiKey ? aiSettings.apiKey || "" : "";
     }
-    apiKeyInput.placeholder = String(aiSettings.apiKeyPreview || "").trim() || "sk- ...";
+    apiKeyInput.placeholder = getAiApiKeyPlaceholder(aiSettings.apiKeyPreview);
   }
   if (apiKeyToggle) {
     apiKeyToggle.textContent = aiApiKeyVisible ? "🙈" : "👁";
@@ -1383,7 +1387,7 @@ function resetAiApiKeyInput(placeholderPreview = "") {
   freshInput.setAttribute("value", "");
   freshInput.setAttribute("autocomplete", "new-password");
   freshInput.type = "password";
-  freshInput.placeholder = String(placeholderPreview || "").trim() || "sk- ...";
+  freshInput.placeholder = getAiApiKeyPlaceholder(placeholderPreview);
   apiKeyInput.replaceWith(freshInput);
 }
 
@@ -1567,7 +1571,7 @@ function deleteAiApiKey() {
     lastStatus: "API-Schlüssel gelöscht."
   });
   persistAiSettings(aiSettings);
-  resetAiApiKeyInput("sk- ...");
+  resetAiApiKeyInput("sk-ant-api03-...");
   renderAiSettingsPanel();
   updateAiStatus(aiSettings.lastStatus);
   refreshAiModuleView();

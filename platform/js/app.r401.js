@@ -3626,6 +3626,15 @@ function openPrintableReport(state, reportTitle, reportMarkup, fileName) {
   return true;
 }
 
+function jumpToReportExportSection() {
+  const target = document.getElementById("reportExportSection") || document.getElementById("reportExportButton");
+  if (!target) return false;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  target.classList.add("jump-anchor-highlight");
+  window.setTimeout(() => target.classList.remove("jump-anchor-highlight"), 1500);
+  return true;
+}
+
 function exportSelectedReportByFormat(state) {
   try {
     const reportState = mergeRiskReportDraftIntoState(mergeAiWorkshopFreeTextDraftIntoState(state));
@@ -3738,6 +3747,7 @@ function revokeReportExportObjectUrls() {
 globalThis.__riskCreateReportExportObjectUrl = createReportExportObjectUrl;
 globalThis.__riskRevokeReportExportObjectUrls = revokeReportExportObjectUrls;
 globalThis.__riskExportSelectedReport = () => exportSelectedReportByFormat(store.getState());
+globalThis.__riskJumpToReportExport = () => jumpToReportExportSection();
 globalThis.__riskRegisterRecentProjectFiles = readRecentProjectFiles;
 globalThis.__riskRegisterLoadRecentProjectFile = loadRecentProjectFileById;
 globalThis.__riskRegisterDeleteRecentProjectFile = deleteRecentProjectFileById;

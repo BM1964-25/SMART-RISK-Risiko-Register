@@ -3116,6 +3116,7 @@ export const modules = {
             <div class="ai-workshop-grid report-workshop-actions report-workshop-actions-inline" style="margin-bottom:10px;">
               <button class="action-btn primary" type="button" data-action="build-report-draft" onclick="void globalThis.__riskBuildReportDraft?.()">Berichts Entwurf aus aktuellen Daten erzeugen</button>
               <button class="action-btn" type="button" data-action="clear-report-draft" onclick="void globalThis.__riskClearReportDraft?.()">Entwurf leeren</button>
+              <button class="action-btn" type="button" data-action="jump-to-report-export" onclick="void globalThis.__riskJumpToReportExport?.()">Bericht exportieren</button>
             </div>
             <h3 id="reportDraftHeading">${reportOutputTitle}</h3>
             <p class="form-note">Der Bericht ist direkt bearbeitbar und wird automatisch gespeichert.</p>
@@ -3156,7 +3157,7 @@ export const modules = {
             </div>
           </section>
           <div class="card-grid report-export-grid-shell" style="grid-template-columns:minmax(0,1fr); align-items:start;">
-            <section class="info-card card-neutral">
+            <section class="info-card card-neutral" id="reportExportSection">
               <h3>Reportprofil</h3>
               <p class="form-note">Die Vertraulichkeit legst du hier fest. Sie steuert, ob der Bericht intern, vertraulich oder stärker geschützt verwendet wird.</p>
               <ul>

@@ -1079,7 +1079,6 @@ function setSecondaryPanelVisibility(panelId, visible) {
     const panel = document.getElementById(currentId);
     if (!panel) return;
     const shouldShow = visible && currentId === panelId;
-    panel.classList.toggle("secondary-panel-hidden", !shouldShow);
     panel.open = shouldShow;
   });
 }
@@ -1098,13 +1097,13 @@ function renderAiSettingsPanel() {
     panel.classList.add(aiSettings.connected ? "ai-connected" : "ai-disconnected");
     panel.classList.add(aiSettings.connected ? "card-success" : aiSettings.testing ? "card-info" : "card-warn");
   }
-  if (apiKeyInput && (!String(aiSettings.apiKey || "").trim() || document.activeElement !== apiKeyInput)) {
-    apiKeyInput.value = aiSettings.apiKey || "";
-  }
   if (apiKeyInput) {
     apiKeyInput.type = aiApiKeyVisible ? "text" : "password";
     const hasApiKey = String(aiSettings.apiKey || "").trim().length > 0;
-    apiKeyInput.placeholder = hasApiKey ? "sk- ..." : (String(aiSettings.apiKeyPreview || "").trim() || "sk- ...");
+    if (document.activeElement !== apiKeyInput) {
+      apiKeyInput.value = aiApiKeyVisible && hasApiKey ? aiSettings.apiKey || "" : "";
+    }
+    apiKeyInput.placeholder = String(aiSettings.apiKeyPreview || "").trim() || "sk- ...";
   }
   if (apiKeyToggle) {
     apiKeyToggle.textContent = aiApiKeyVisible ? "🙈" : "👁";
@@ -1154,11 +1153,13 @@ function resetAiApiKeyInput(placeholderPreview = "") {
 
 function readAiSettingsFromPanel() {
   const apiKey = String(document.getElementById("aiApiKey")?.value || "");
+  const storedApiKey = String(aiSettings.apiKey || "");
+  const effectiveApiKey = apiKey.trim() ? apiKey : storedApiKey;
   return normalizeAiSettings({
     provider: "anthropic",
     modelProfile: "balanced",
-    apiKey,
-    apiKeyPreview: apiKey ? buildAiApiKeyPreview(apiKey) : aiSettings.apiKeyPreview,
+    apiKey: effectiveApiKey,
+    apiKeyPreview: effectiveApiKey ? buildAiApiKeyPreview(effectiveApiKey) : aiSettings.apiKeyPreview,
     proxyBaseUrl: aiSettings.proxyBaseUrl || DEFAULT_AI_PROXY_BASE_URL,
     budgetEur: Number(aiSettings.budgetEur) || getDefaultAiSettings().budgetEur,
     connected: aiSettings.connected,
@@ -1278,7 +1279,7 @@ function disconnectAiConnection() {
   const currentApiKey = String(document.getElementById("aiApiKey")?.value || aiSettings.apiKey || "");
   aiSettings = normalizeAiSettings({
     ...readAiSettingsFromPanel(),
-    apiKey: "",
+    apiKey: currentApiKey || aiSettings.apiKey || "",
     apiKeyPreview: buildAiApiKeyPreview(currentApiKey) || aiSettings.apiKeyPreview || "",
     connected: false,
     testing: false,
@@ -4188,11 +4189,6 @@ function bindEvents() {
     const details = event.target;
     if (!(details instanceof HTMLElement)) return;
     if (details.id === "aiConnectionPanel") {
-      if (details.open) {
-        details.classList.remove("secondary-panel-hidden");
-      } else {
-        details.classList.add("secondary-panel-hidden");
-      }
       return;
     }
     if (details.matches("[data-risk-panel-key]")) {

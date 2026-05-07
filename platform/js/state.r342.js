@@ -175,6 +175,11 @@ export const initialState = {
       resultTone: "neutral",
       resultData: null
     },
+    aiPanelOpenStates: {
+      aiConnectionPanel: false,
+      fachChatPanel: false,
+      hilfeChatPanel: false
+    },
     projectExportName: "Wohnbau01",
     reportExportName: "",
     reportExportFormat: "txt",

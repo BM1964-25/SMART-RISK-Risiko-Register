@@ -546,6 +546,19 @@ function normalizeAiSettings(raw = {}) {
   };
 }
 
+function normalizeAiPanelOpenStates(panelOpenStates) {
+  const defaultOpenStates = {
+    aiConnectionPanel: false,
+    fachChatPanel: false,
+    hilfeChatPanel: false
+  };
+  if (!panelOpenStates || typeof panelOpenStates !== "object") return defaultOpenStates;
+  return Object.keys(defaultOpenStates).reduce((acc, key) => {
+    acc[key] = panelOpenStates[key] === true;
+    return acc;
+  }, {});
+}
+
 function normalizeAiProxyBaseUrl(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
@@ -3026,6 +3039,7 @@ function restoreAutosave() {
   }
   nextState.ui = {
     ...nextState.ui,
+    aiPanelOpenStates: normalizeAiPanelOpenStates({}),
     riskRegisterView: {
       ...nextState.ui?.riskRegisterView,
       panelOpenStates: {
@@ -3105,6 +3119,7 @@ async function importProjectFile(file) {
     }
     nextState.ui = {
       ...nextState.ui,
+      aiPanelOpenStates: normalizeAiPanelOpenStates({}),
       riskRegisterView: {
         ...nextState.ui?.riskRegisterView,
         panelOpenStates: {
@@ -3120,6 +3135,7 @@ async function importProjectFile(file) {
     nextState.ui = {
       ...nextState.ui,
       activeModule: "project",
+      aiPanelOpenStates: normalizeAiPanelOpenStates({}),
       riskRegisterView: {
         ...nextState.ui?.riskRegisterView,
         panelOpenStates: {
@@ -3276,7 +3292,8 @@ async function loadRecentProjectFileById(id) {
   }
   nextState.ui = {
     ...nextState.ui,
-    activeModule: "project"
+    activeModule: "project",
+    aiPanelOpenStates: normalizeAiPanelOpenStates(nextState.ui?.aiPanelOpenStates)
   };
   store.setState(nextState);
   syncAiWorkshopFreeTextDraftFromState(nextState);
@@ -4488,7 +4505,21 @@ function bindEvents() {
   document.addEventListener("toggle", (event) => {
     const details = event.target;
     if (!(details instanceof HTMLElement)) return;
-    if (details.id === "aiConnectionPanel") {
+    if (details.matches?.("[data-ai-panel-key]")) {
+      const panelKey = details.getAttribute("data-ai-panel-key");
+      if (!panelKey) return;
+      const currentOpenStates = normalizeAiPanelOpenStates(store.getState().ui?.aiPanelOpenStates);
+      if (currentOpenStates[panelKey] === details.open) return;
+      store.setState((state) => ({
+        ...state,
+        ui: {
+          ...state.ui,
+          aiPanelOpenStates: {
+            ...normalizeAiPanelOpenStates(state.ui?.aiPanelOpenStates),
+            [panelKey]: details.open
+          }
+        }
+      }));
       return;
     }
     if (details.matches("[data-risk-panel-key]")) {

@@ -199,6 +199,7 @@ function renderAiChatThreadHtml(config = {}) {
   const chatId = String(config.chatId || "fach");
   const panelKey = String(config.panelKey || `${chatId}ChatPanel`);
   const panelStyle = String(config.panelStyle || "").trim();
+  const panelOpen = config.open === true;
   const prompts = Array.isArray(config.prompts) ? config.prompts : [];
   const messages = Array.isArray(config.messages) ? config.messages : [];
   const cardClass = String(config.cardClass || "card-info").trim();
@@ -276,7 +277,7 @@ function renderAiChatThreadHtml(config = {}) {
     `;
   }
   return `
-    <details class="info-card risk-register-card risk-fold-card ai-chat-panel ${escapeHtml(cardClass)}" data-ai-panel-key="${escapeHtml(panelKey)}" style="${escapeHtml(panelStyle)}" open>
+    <details class="info-card risk-register-card risk-fold-card ai-chat-panel ${escapeHtml(cardClass)}" data-ai-panel-key="${escapeHtml(panelKey)}" style="${escapeHtml(panelStyle)}"${panelOpen ? " open" : ""}>
       <summary class="risk-fold-summary">
         <div class="risk-fold-summary-main">
           <div class="risk-fold-summary-topline">
@@ -765,6 +766,19 @@ function normalizeRiskRegisterPanelOpenStates(panelOpenStates) {
 }
 
 export { normalizeRiskRegisterPanelOpenStates };
+
+function normalizeAiPanelOpenStates(panelOpenStates) {
+  const defaultOpenStates = {
+    aiConnectionPanel: false,
+    fachChatPanel: false,
+    hilfeChatPanel: false
+  };
+  if (!panelOpenStates || typeof panelOpenStates !== "object") return defaultOpenStates;
+  return Object.keys(defaultOpenStates).reduce((acc, key) => {
+    acc[key] = panelOpenStates[key] === true;
+    return acc;
+  }, {});
+}
 
 function parseRiskDateValue(value) {
   if (!value) return null;
@@ -3223,6 +3237,7 @@ export const modules = {
       const reportProfile = state.reportProfile || {};
       const aiChats = globalThis.__riskRegisterAiChats || {};
       const aiDrafts = globalThis.__riskRegisterUiDrafts?.aiChatDrafts || {};
+      const aiPanelOpenStates = normalizeAiPanelOpenStates(state.ui?.aiPanelOpenStates);
       const aiPanelOrder = Array.isArray(globalThis.__riskRegisterAiPanelOrder) && globalThis.__riskRegisterAiPanelOrder.length
         ? globalThis.__riskRegisterAiPanelOrder
         : ["aiConnectionPanel", "fachChatPanel", "hilfeChatPanel"];
@@ -3266,7 +3281,7 @@ export const modules = {
             <span class="badge">KI-Dialog</span>
           </div>
           <div class="card-grid ai-hub-grid">
-            <details class="info-card card-info risk-register-card risk-fold-card ai-connection-panel" id="aiConnectionPanel" data-ai-panel-key="aiConnectionPanel" open style="grid-column:1 / -1; ${aiPanelOrderStyle("aiConnectionPanel")}">
+            <details class="info-card card-info risk-register-card risk-fold-card ai-connection-panel" id="aiConnectionPanel" data-ai-panel-key="aiConnectionPanel"${aiPanelOpenStates.aiConnectionPanel ? " open" : ""} style="grid-column:1 / -1; ${aiPanelOrderStyle("aiConnectionPanel")}">
               <summary class="risk-fold-summary">
                 <div class="risk-fold-summary-main">
                   <div class="risk-fold-summary-topline">
@@ -3344,7 +3359,8 @@ export const modules = {
               draft: String(aiDrafts.fach || ""),
               busy: Boolean(fachChat.busy),
               status: String(fachChat.status || "Bereit"),
-              messages: fachChatMessages
+              messages: fachChatMessages,
+              open: aiPanelOpenStates.fachChatPanel
             })}
             ${renderAiChatThreadHtml({
               chatId: "hilfe",
@@ -3371,7 +3387,8 @@ export const modules = {
               draft: String(aiDrafts.hilfe || ""),
               busy: Boolean(hilfeChat.busy),
               status: String(hilfeChat.status || "Bereit"),
-              messages: hilfeChatMessages
+              messages: hilfeChatMessages,
+              open: aiPanelOpenStates.hilfeChatPanel
             })}
           </div>
         </div>

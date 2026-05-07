@@ -3091,10 +3091,10 @@ export const modules = {
                   <span class="report-process-step-number">4</span>
                   <span class="report-process-step-text">Exportbereich öffnen und Bericht exportieren.</span>
                 </div>
-              </div>
-              <div class="report-process-note-tile">
-                <span class="report-process-note-badge" aria-hidden="true">!</span>
-                <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand. Die KI ist optional.</span>
+                <div class="report-process-note-tile">
+                  <span class="report-process-note-badge" aria-hidden="true">!</span>
+                  <span class="report-process-note-text">Beim Export gilt stets der aktuelle Entwurfsstand. Die KI ist optional.</span>
+                </div>
               </div>
             </div>
             <div class="ai-workshop-grid report-workshop-actions report-workshop-actions-inline" style="margin-bottom:10px;">

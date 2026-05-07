@@ -3077,19 +3077,19 @@ export const modules = {
               <div class="report-process-grid">
                 <div class="report-process-step">
                   <span class="report-process-step-number">1</span>
-                  <span class="report-process-step-text">Entwurf aus den aktuellen Daten erzeugen.</span>
+                  <span class="report-process-step-text">Berichts-Entwurf aus den aktuellen Daten erzeugen. Dadurch wird ein erster Entwurf auf Basis der aktuellen Projektdaten erstellt.</span>
                 </div>
                 <div class="report-process-step optional">
                   <span class="report-process-step-number">2</span>
-                  <span class="report-process-step-text"><span class="report-process-step-flag">Optional</span> Mit KI überarbeiten.</span>
+                  <span class="report-process-step-text"><span class="report-process-step-flag">Optional</span> Bericht mit KI überarbeiten. Die KI verdichtet und formuliert den Entwurf sprachlich und fachlich weiter.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">3</span>
-                  <span class="report-process-step-text">Entwurf prüfen oder KI-Vorschlag übernehmen.</span>
+                  <span class="report-process-step-text">Entwurf prüfen oder KI-Vorschlag übernehmen. Der Vorschlag kann als neuer Entwurfsstand übernommen oder verworfen werden.</span>
                 </div>
                 <div class="report-process-step">
                   <span class="report-process-step-number">4</span>
-                  <span class="report-process-step-text">Exportbereich öffnen und Bericht exportieren.</span>
+                  <span class="report-process-step-text">Exportbereich öffnen und Bericht exportieren. Der aktuelle Entwurfsstand wird dort als Datei ausgegeben.</span>
                 </div>
                 <div class="report-process-note-tile">
                   <span class="report-process-note-badge" aria-hidden="true">!</span>

@@ -3285,7 +3285,6 @@ export const modules = {
                     <button class="action-btn danger" id="disconnectAiSettingsBtn" type="button" onclick="void globalThis.__riskDisconnectAiConnection?.()">Offline schalten</button>
                     <button class="action-btn danger" id="deleteAiSettingsBtn" type="button" onclick="void globalThis.__riskDeleteAiApiKey?.()">API-Schlüssel löschen</button>
                     <button class="storage-status storage-status-box ai-status-neutral" id="aiStatus" type="button" disabled style="grid-column:1 / -1;">Noch keine KI-Verbindung eingerichtet.</button>
-                    <div class="form-note ai-release-note" style="grid-column:1 / -1; margin:-2px 0 2px; line-height:1.2; font-size:0.76rem;">Aktueller Release geladen: 07.05.2026, 14:23</div>
                     <p class="form-note ai-connection-help" style="grid-column:1 / -1; margin:0; line-height:1.08; white-space:nowrap;"><strong>Erneut prüfen:</strong> nutzt den gespeicherten Schlüssel und testet die Verbindung nochmals.</p>
                     <p class="form-note ai-connection-help" style="grid-column:1 / -1; margin:0; line-height:1.08; white-space:nowrap;"><strong>Offline schalten:</strong> trennt nur die Verbindung.</p>
                     <p class="form-note ai-connection-help" style="grid-column:1 / -1; margin:0; line-height:1.08; white-space:nowrap;"><strong>API-Schlüssel löschen:</strong> entfernt den Schlüssel wirklich aus dem Browser.</p>
@@ -3298,6 +3297,7 @@ export const modules = {
                       <a class="action-btn" href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic Console öffnen</a>
                     </div>
                     <p>Modell: Claude Sonnet 4. Für die automatische KI-Nutzung benötigt die App einen technischen Anthropic-API-Schlüssel. Das ist kein normaler Benutzer- oder Claude-Account, sondern der Zugriff für die direkte KI-Anbindung im Browser. Für den Einstieg werden 10 Euro empfohlen. Das ist kein ausgelesener Kontostand, sondern nur eine Orientierung: Je nach Umfang reicht das grob für zahlreiche kurze Prüfungen oder etwa 150 bis 300 Seiten komprimierter Berichtstexte; bei längeren, ausführlicheren Berichten entsprechend weniger. Die Abrechnung läuft direkt zwischen dir und Anthropic/Claude und wird separat nach Verbrauch berechnet. Die offizielle <a href="https://docs.anthropic.com/en/docs/about-claude/pricing" target="_blank" rel="noopener noreferrer">Anthropic-Dokumentation zur Preisübersicht</a> findest du dort.</p>
+                    <div class="form-note ai-release-note" style="margin:2px 0 0; line-height:1.2; font-size:0.76rem; text-align:right;">Aktueller Release geladen: 07.05.2026, 14:23</div>
                   </div>
                 </div>
               </div>

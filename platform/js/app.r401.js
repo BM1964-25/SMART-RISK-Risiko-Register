@@ -6,6 +6,7 @@ if (typeof history !== "undefined" && "scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
 const CURRENT_SCHEMA_VERSION = 2;
+const APP_RELEASE_VERSION = "2026-05-07.2";
 const PROJECT_STATE_MIGRATIONS = Object.freeze({
   2: (state) => {
     const baseProject = cloneState().project;
@@ -27,6 +28,7 @@ const RECENT_PROJECT_FILES_KEY = "project_controls_hub_recent_project_files_v1";
 const MAX_RECENT_PROJECT_FILES = 3;
 const RECENT_PROJECT_FILES_DB_NAME = "project_controls_hub_recent_project_files_db_v1";
 const RECENT_PROJECT_FILES_DB_STORE = "projectFiles";
+const APP_RELEASE_STATE_KEY = "project_controls_hub_release_version_v1";
 const AI_SETTINGS_KEY = "project_controls_hub_ai_settings_v1";
 const AI_CHAT_STATE_KEY = "project_controls_hub_ai_chats_v1";
 const AI_PANEL_ORDER_KEY = "project_controls_hub_ai_panel_order_v1";
@@ -60,6 +62,7 @@ let reportDraftBaselineHtml = "";
 const reportDraftUndoStack = uiDrafts.riskReportDraftUndoStack || (uiDrafts.riskReportDraftUndoStack = []);
 const reportDraftRedoStack = uiDrafts.riskReportDraftRedoStack || (uiDrafts.riskReportDraftRedoStack = []);
 let suppressNextAutosave = 0;
+resetStoredStateForNewRelease();
 let aiSettings = loadAiSettings();
 let aiChats = loadAiChatsState();
 globalThis.__riskRegisterAiChats = aiChats;
@@ -179,6 +182,21 @@ function writeStorageValue(key, value) {
   } catch (_error) {
     return false;
   }
+}
+
+function resetStoredStateForNewRelease() {
+  const storedRelease = readStorageValue(APP_RELEASE_STATE_KEY);
+  if (storedRelease === APP_RELEASE_VERSION) return;
+  try {
+    localStorage.removeItem(AUTOSAVE_KEY);
+    localStorage.removeItem(AI_SETTINGS_KEY);
+    localStorage.removeItem(AI_CHAT_STATE_KEY);
+    localStorage.removeItem(AI_PANEL_ORDER_KEY);
+    localStorage.removeItem(APP_RELEASE_STATE_KEY);
+  } catch (_error) {
+    // Ignore storage access failures and continue with the in-memory defaults.
+  }
+  writeStorageValue(APP_RELEASE_STATE_KEY, APP_RELEASE_VERSION);
 }
 
 function openRecentProjectFilesDb() {

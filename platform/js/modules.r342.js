@@ -3320,6 +3320,7 @@ export const modules = {
                       <button class="action-btn primary" id="saveAiSettingsBtn" type="button" onclick="void globalThis.__riskSaveAiSettings?.()">Einstellungen speichern</button>
                       <button class="action-btn" id="testAiSettingsBtn" type="button" onclick="void globalThis.__riskTestAiSettings?.()">Verbindung erneut prüfen</button>
                       <button class="action-btn danger" id="disconnectAiSettingsBtn" type="button" onclick="void globalThis.__riskDisconnectAiConnection?.()">Verbindung trennen</button>
+                      <button class="action-btn danger" id="deleteAiSettingsBtn" type="button" onclick="void globalThis.__riskDeleteAiApiKey?.()">API-Schlüssel löschen</button>
                       <button class="storage-status storage-status-box ai-status-neutral" id="aiStatus" type="button" disabled style="grid-column:1 / -1;">Noch keine KI-Verbindung eingerichtet.</button>
                     </div>
                   </div>

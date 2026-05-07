@@ -1238,6 +1238,7 @@ function renderAiSettingsPanel() {
   const statusTarget = document.getElementById("aiStatus");
   const testButton = document.getElementById("testAiSettingsBtn");
   const disconnectButton = document.getElementById("disconnectAiSettingsBtn");
+  const deleteButton = document.getElementById("deleteAiSettingsBtn");
   if (panel) {
     panel.classList.remove("ai-connected", "ai-disconnected");
     panel.classList.remove("card-neutral", "card-info", "card-warn", "card-critical", "card-success");
@@ -1282,6 +1283,11 @@ function renderAiSettingsPanel() {
     disconnectButton.style.display = "flex";
     const hasStoredKey = Boolean(String(aiSettings.apiKey || "").trim() || String(aiSettings.apiKeyPreview || "").trim() || aiSettings.connected || aiSettings.testing);
     disconnectButton.disabled = !hasStoredKey;
+  }
+  if (deleteButton) {
+    deleteButton.style.display = "flex";
+    const hasStoredKey = Boolean(String(aiSettings.apiKey || "").trim() || String(aiSettings.apiKeyPreview || "").trim() || aiSettings.connected || aiSettings.testing);
+    deleteButton.disabled = !hasStoredKey;
   }
 }
 
@@ -1443,7 +1449,7 @@ function disconnectAiConnection() {
     connected: false,
     testing: false,
     lastDisconnectAt: new Date().toISOString(),
-    lastStatus: "Verbindung getrennt. Schlüsselvorschau bleibt sichtbar."
+    lastStatus: "Verbindung getrennt. Schlüssel bleibt gespeichert."
   });
   persistAiSettings(aiSettings);
   resetAiApiKeyInput(aiSettings.apiKeyPreview || buildAiApiKeyPreview(currentApiKey));
@@ -1467,6 +1473,29 @@ function disconnectAiConnection() {
       })
     }
   }));
+}
+
+function deleteAiApiKey() {
+  if (aiConnectionAbortController) {
+    aiConnectionAbortController.abort();
+    aiConnectionAbortController = null;
+  }
+  aiApiKeyVisible = false;
+  aiSettings = normalizeAiSettings({
+    ...readAiSettingsFromPanel(),
+    apiKey: "",
+    apiKeyPreview: "",
+    connected: false,
+    testing: false,
+    lastDisconnectAt: new Date().toISOString(),
+    lastStatus: "API-Schlüssel gelöscht."
+  });
+  persistAiSettings(aiSettings);
+  resetAiApiKeyInput("sk- ...");
+  renderAiSettingsPanel();
+  updateAiStatus(aiSettings.lastStatus);
+  refreshAiModuleView();
+  document.getElementById("aiApiKey")?.blur();
 }
 
 function buildAiWorkshopPayload(state, task) {
@@ -3729,6 +3758,7 @@ globalThis.__riskSaveAiSettings = () => {
 };
 globalThis.__riskTestAiSettings = () => startAiConnectionTest();
 globalThis.__riskDisconnectAiConnection = () => disconnectAiConnection();
+globalThis.__riskDeleteAiApiKey = () => deleteAiApiKey();
 globalThis.__riskToggleAiApiKeyVisibility = () => {
   aiApiKeyVisible = !aiApiKeyVisible;
   renderAiSettingsPanel();
